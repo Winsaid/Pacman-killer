@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+2 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "C:/Users/Winsaid/dev/tpro/Pacman-killer/Pacman-killer/Main/out/build/x64-debug/CMakeFiles/MainLib.dir/embed.manifest"
