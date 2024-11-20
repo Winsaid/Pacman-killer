@@ -12,8 +12,12 @@
     ]
   },
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SFML-2.6.2",
+    "\\SFML-2.6.2\\include",
+    "\\SFML-2.6.2\\include\\SFML",
+    "\\src"
   ],
-  "SelectedNode": "\\main.cpp",
+  "SelectedNode": "\\src\\main.cpp",
   "PreviewInSolutionExplorer": false
 }

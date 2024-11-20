@@ -49,11 +49,11 @@ cmake_ninja_workdir = C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\out\build\x6
 
 build cmake_object_order_depends_target_main: phony || CMakeFiles\main.dir
 
-build CMakeFiles\main.dir\main.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\main.cpp || cmake_object_order_depends_target_main
+build CMakeFiles\main.dir\src\main.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\src\main.cpp || cmake_object_order_depends_target_main
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++14
   INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\include -external:W0
   OBJECT_DIR = CMakeFiles\main.dir
-  OBJECT_FILE_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\main.dir\
   TARGET_PDB = main.pdb
 
@@ -65,7 +65,7 @@ build CMakeFiles\main.dir\main.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\U
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles\main.dir\main.cpp.obj | C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib
+build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles\main.dir\src\main.cpp.obj | C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
@@ -76,6 +76,44 @@ build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles\main.dir\main.cpp.o
   TARGET_FILE = main.exe
   TARGET_IMPLIB = main.lib
   TARGET_PDB = main.pdb
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target mainLib
+
+
+#############################################
+# Order-only phony target for mainLib
+
+build cmake_object_order_depends_target_mainLib: phony || CMakeFiles\mainLib.dir
+
+build CMakeFiles\mainLib.dir\src\main.cpp.obj: CXX_COMPILER__mainLib_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\main\src\main.cpp || cmake_object_order_depends_target_mainLib
+  DEFINES = -DmainLib_EXPORTS
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1 -std:c++14
+  OBJECT_DIR = CMakeFiles\mainLib.dir
+  OBJECT_FILE_DIR = CMakeFiles\mainLib.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\mainLib.dir\
+  TARGET_PDB = mainLib.pdb
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target mainLib
+
+
+#############################################
+# Link the shared library mainLib.dll
+
+build mainLib.dll mainLib.lib: CXX_SHARED_LIBRARY_LINKER__mainLib_Debug CMakeFiles\mainLib.dir\src\main.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
+  LINK_FLAGS = /machine:x64 /debug /INCREMENTAL
+  LINK_LIBRARIES = kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  OBJECT_DIR = CMakeFiles\mainLib.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\mainLib.dir\
+  TARGET_FILE = mainLib.dll
+  TARGET_IMPLIB = mainLib.lib
+  TARGET_PDB = mainLib.pdb
 
 
 #############################################
@@ -105,6 +143,8 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 
 build main: phony main.exe
 
+build mainLib: phony mainLib.dll
+
 # =============================================================================
 # Folder targets.
 
@@ -113,7 +153,7 @@ build main: phony main.exe
 #############################################
 # Folder: C:/Users/Winsaid/dev/tpro/Pacman-killer/main/out/build/x64-debug
 
-build all: phony main.exe
+build all: phony main.exe mainLib.dll
 
 # =============================================================================
 # Unknown Build Time Dependencies.
