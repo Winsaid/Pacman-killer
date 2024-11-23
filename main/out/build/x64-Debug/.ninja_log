@@ -1,0 +1,20 @@
+# ninja log v5
+9	561	7540945120192651	CMakeFiles/main.dir/src/class_button.cpp.obj	9f823ea0af68d341
+4	564	7540945120222289	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+11	327	7540945427088089	main.exe	5ffa3f6e7121408b
+3	648	7540947549439927	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+649	816	7540947550778748	main.exe	5ffa3f6e7121408b
+21	903	7540972911367744	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+904	1049	7540972912549642	main.exe	5ffa3f6e7121408b
+21	756	7540973234850001	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+757	920	7540973236096395	main.exe	5ffa3f6e7121408b
+18	593	7540973293064154	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+594	732	7540973294140802	main.exe	5ffa3f6e7121408b
+21	614	7540973834035612	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+615	807	7540973835566406	main.exe	5ffa3f6e7121408b
+17	795	7540974441501980	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+796	929	7540974442586046	main.exe	5ffa3f6e7121408b
+3	612	7540977263211095	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+613	757	7540977264370685	main.exe	5ffa3f6e7121408b
+3	582	7540978351197046	CMakeFiles/main.dir/src/main_window.cpp.obj	c5154655b882cda1
+583	767	7540978352690517	main.exe	5ffa3f6e7121408b
