@@ -10,7 +10,8 @@ set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SFML-2.6.2/lib/cmake/SFML")
 find_package(SFML 2.5 COMPONENTS graphics audio window system REQUIRED)
 
 # Добавьте ваши исходные файлы
-add_executable(main src/main_window.cpp src/class_button.cpp)
+add_executable(main src/main_window.cpp src/class_button.cpp head/class_button.h "head/authors.h")
+#add_executable(main "head/options.h" head/class_button.h)
 #add_library(mainLib SHARED src/main_window.cpp src/class_button.cpp)
 
 # Подключите SFML библиотеки к вашему проекту

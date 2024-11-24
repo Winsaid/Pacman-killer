@@ -9,7 +9,7 @@ sf::Text setText(std::string text, int size, const sf::Font* font, sf::Color col
 class Button : public sf::Drawable {
 public:
 	Button() = delete;
-	Button(sf::Text content, sf::RectangleShape button);
+	Button(sf::Text content, sf::RectangleShape button, std::string textString);
 	~Button() {};
 
 	void setWidth(int width) { this->_button.setSize(sf::Vector2f(width, this->getHeight())); }
@@ -27,8 +27,14 @@ public:
 		target.draw(_button, states);
 		target.draw(_content, states);
 	}
-
+	std::string getText(){
+		return _textString;
+	}
+	sf::RectangleShape getShape() {
+		return _button;
+	}
 private:
+	std::string _textString;
 	sf::Text _content;
 	sf::RectangleShape _button;
 };
