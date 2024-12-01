@@ -1,4 +1,0 @@
-C:/Users/Winsaid/dev/tpro/Pacman-killer/Pacman-killer/Main/out/build/x64-debug/CMakeFiles/Main.dir
-C:/Users/Winsaid/dev/tpro/Pacman-killer/Pacman-killer/Main/out/build/x64-debug/CMakeFiles/MainLib.dir
-C:/Users/Winsaid/dev/tpro/Pacman-killer/Pacman-killer/Main/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/Users/Winsaid/dev/tpro/Pacman-killer/Pacman-killer/Main/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
