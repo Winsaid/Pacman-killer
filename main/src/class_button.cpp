@@ -1,7 +1,7 @@
 #include "../head/class_button.h"
 
-Button::Button(sf::Text content, sf::RectangleShape button, std::string textString)
-	: _content(content), _button(button), _textString(textString)
+Button::Button(sf::Text content, sf::RectangleShape button, std::string textString, GameState state)
+	: _content(content), _button(button), _textString(textString), _state(state)
 {
 	int textXSize = this->_content.getLocalBounds().width;
 	int textYSize = this->_content.getLocalBounds().height;

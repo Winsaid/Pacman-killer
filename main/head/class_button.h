@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SFML/Graphics.hpp"
+#include "GameState.h"
 #include <string>
 
 sf::RectangleShape setRectangle(sf::Vector2f size, sf::Color color, sf::Vector2f position = sf::Vector2f(0, 0));
@@ -9,7 +10,7 @@ sf::Text setText(std::string text, int size, const sf::Font* font, sf::Color col
 class Button : public sf::Drawable {
 public:
 	Button() = delete;
-	Button(sf::Text content, sf::RectangleShape button, std::string textString);
+	Button(sf::Text content, sf::RectangleShape button, std::string textString, GameState state);
 	~Button() {};
 
 	void setWidth(int width) { this->_button.setSize(sf::Vector2f(width, this->getHeight())); }
@@ -27,14 +28,23 @@ public:
 		target.draw(_button, states);
 		target.draw(_content, states);
 	}
-	std::string getText(){
-		return _textString;
+
+	std::string getText() { return _textString; }
+	sf::RectangleShape getShape() { return _button; }
+
+	sf::FloatRect getGlobalBounds() const { return _button.getGlobalBounds(); }
+
+	GameState getGameState() {
+		return this->_state;
 	}
-	sf::RectangleShape getShape() {
-		return _button;
+
+	void setGameState(GameState state) {
+		_state = state;
 	}
+
 private:
 	std::string _textString;
 	sf::Text _content;
 	sf::RectangleShape _button;
+	GameState _state;
 };
