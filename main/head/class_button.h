@@ -6,6 +6,8 @@
 
 sf::RectangleShape setRectangle(sf::Vector2f size, sf::Color color, sf::Vector2f position = sf::Vector2f(0, 0));
 sf::Text setText(std::string text, int size, const sf::Font* font, sf::Color color);
+int TextToInt(sf::Text content);
+sf::Text IntToText(int content);
 
 class Button : public sf::Drawable {
 public:
@@ -15,7 +17,7 @@ public:
 
 	void setWidth(int width) { this->_button.setSize(sf::Vector2f(width, this->getHeight())); }
 	void setHeight(int height) { this->_button.setSize(sf::Vector2f(this->getWidth(), height)); }
-	void setContent(sf::Text content) { this->_content = content; };
+	void setContent(sf::Text content) { this->_content.setString(content.getString()); };
 	void setPosition(sf::Vector2f vector);
 
 	int getWidth() { return this->_button.getSize().x; }
