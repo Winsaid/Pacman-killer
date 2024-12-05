@@ -129,36 +129,31 @@ Window createMainWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 
 	Button playButton(
 		setText(std::string("Play"), 75, &font, yellow),
-		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 250)),
+		setRectangle(sf::Vector2f(400, 100), black, sf::Vector2f(740, 250)),
 		"Play",
 		GameState::Play
 	);
 
 	Button optionButton(
 		setText(std::string("Options"), 75, &font, yellow),
-		setRectangle(sf::Vector2f(355, 100), black, sf::Vector2f(100, 370)),
+		setRectangle(sf::Vector2f(400, 100), black, sf::Vector2f(740, 370)),
 		"Options",
 		GameState::OptionsMenu
 	);
 
 	Button authorsButton(
 		setText(std::string("Authors"), 75, &font, yellow),
-		setRectangle(sf::Vector2f(432, 100), black, sf::Vector2f(100, 490)),
+		setRectangle(sf::Vector2f(400, 100), black, sf::Vector2f(740, 490)),
 		"Authors",
 		GameState::Authors
 	);
 
 	Button exitButton(
 		setText(std::string("Exit"), 75, &font, yellow),
-		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 610)),
+		setRectangle(sf::Vector2f(400, 100), black, sf::Vector2f(740, 610)),
 		"Exit",
 		GameState::Exit
 	);
-
-	playButton.setPosition(sf::Vector2f(100, 250));
-	optionButton.setPosition(sf::Vector2f(100, 370));
-	authorsButton.setPosition(sf::Vector2f(100, 490));
-	exitButton.setPosition(sf::Vector2f(100, 610));
 
 	std::vector<Button> buttons;
 	buttons.push_back(playButton);

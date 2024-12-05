@@ -40,7 +40,7 @@ sf::RectangleShape setRectangle(sf::Vector2f size, sf::Color color, sf::Vector2f
 	sf::RectangleShape rectangle(size);
 	rectangle.setFillColor(color);
 	rectangle.setPosition(position);
-	rectangle.setOutlineThickness(1);
+	rectangle.setOutlineThickness(3);
 	rectangle.setOutlineColor(sf::Color::Yellow);
 	return rectangle;
 }
