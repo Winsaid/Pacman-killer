@@ -39,10 +39,12 @@ std::vector<sf::String> ZERO_LEVEL_S = {
 	"2226262626262626262626262626262626262623"
 };
 
-const int MAP_LEVEL_TWO_WIDTH = 19;
-const int MAP_LEVEL_TWO_HEIGHT = 19;
+const int MAP_LEVEL_TWO_WIDTH   = 19;
+const int MAP_LEVEL_TWO_HEIGHT  = 19;
 const int MAP_LEVEL_TWO_START_X = 188;
 const int MAP_LEVEL_TWO_START_Y = 120;
+const int LEVEL_TWO_BOT_START_X = 620;
+const int LEVEL_TWO_BOT_START_Y = 500;
 
 std::vector<sf::String> LEVEL_TWO = {
 	"0000000000000000000",
