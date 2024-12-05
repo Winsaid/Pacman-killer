@@ -6,8 +6,9 @@ void Character::takeDamage(float damage) {
     _health -= damage;
 }
 
-void Character::setPosition(sf::Vector2f& pos) {
+void Character::setPosition(sf::Vector2f pos) {
     _pos = pos;
+    _sprite.setPosition(_pos);
 }
 
 void Character::setDirection(Direction direction) {

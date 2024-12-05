@@ -21,10 +21,9 @@ protected:
 public:
 	virtual ~Character();
 
-	virtual void Update(float time) = 0;
 	void takeDamage(float damage);
 
-	void setPosition(sf::Vector2f& pos);
+	void setPosition(sf::Vector2f pos);
 	void setDirection(Direction direction);
 	
 

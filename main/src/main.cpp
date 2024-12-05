@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Scale.h"
+#include "Bot.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Title");
@@ -23,8 +24,10 @@ int main() {
     levels.push_back(level_s);
     
     Map map(levels);
-    Player* player = new Player(textures::playerTexture, sf::Vector2f(360, 184), 100);
+    Player* player = new Player(textures::playerTexture, sf::Vector2f(360, 184));
     Scale scale = getScale(map.getPoints().size());
+    Bot bot(Blue, textures::playerTexture);
+    bot.setPosition(sf::Vector2f(586, 408));
 
     sf::Font font;
     font.loadFromFile("./fonts/Joystix.TTF");
@@ -40,10 +43,10 @@ int main() {
     int pointCount = map.getPoints().size();
 
     while (window.isOpen()) {
-        float timeForMove = clockForMove.getElapsedTime().asMicroseconds();
-        clockForMove.restart();       
-        float timeForPlrSprt = clockForPlrSprt.getElapsedTime().asSeconds();
+        float timeForMove           = clockForMove.getElapsedTime().asMicroseconds();  
+        float timeForPlrSprt        = clockForPlrSprt.getElapsedTime().asSeconds();
         sf::IntRect lastTextureRect = player->getSprite().getTextureRect();
+        clockForMove.restart();
         actualPointCount = map.getPoints().size();
 
         sf::Event event;
@@ -58,7 +61,11 @@ int main() {
             scale.addCollectedPoint();
         }
 
-        if (!scale.isAllPointCollected()) player->Update(map, timeForMove, timeForPlrSprt);
+        if (!scale.isAllPointCollected()) 
+        {
+            player->Update(map, timeForMove, timeForPlrSprt);
+            bot.Update(map, timeForMove);
+        }
 
         if (lastTextureRect != player->getSprite().getTextureRect())
             clockForPlrSprt.restart();
@@ -66,8 +73,9 @@ int main() {
         window.clear(sf::Color::Black);
         window.draw(map);
         window.draw(player->getSprite());
-        window.draw(scale);
+        window.draw(bot.getSprite());
         if (scale.isAllPointCollected()) window.draw(end);
+        window.draw(scale);
         window.display();
     }
 
