@@ -57,12 +57,10 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 
 	int max = availableDirections.size();
 	int randNum = rand() % (max);
-	
+	sf::Vector2f updated_pos = this->_pos;
+
 	if (timeForChBotDir > 3)
 		_direction = availableDirections[randNum];
-
-	_lastDirections = availableDirections;
-	sf::Vector2f updated_pos = this->_pos;
 
 	switch (_direction) {
 	case Direction::RIGHT:
@@ -105,6 +103,7 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 	}
 
 	_sprite.setPosition(updated_pos);
+	_lastPosition = updated_pos;
 	_pos = updated_pos;
 }
 

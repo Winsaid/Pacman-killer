@@ -15,15 +15,16 @@ public:
 	Player(sf::Texture& texture, sf::Vector2f start_pos);
 	~Player();
 
-	int getMadTime() { return this->_madTime; }
-
 	void Update(Map &map, float time, float timeForMove);
 	void setState(State state) { _state = state; }
-	void setMadTime(int time) { this->_madTime = time;  }
+	void setMadMode() { timerForMad.restart(); }
+	
 	PlayerController* getController() { return _controller; }
+	bool getMode();
+	float getTime();
 
 private:
+	sf::Clock timerForMad;
 	State             _state = State::IDLE;
 	PlayerController* _controller;
-	int               _madTime = 0;
 };

@@ -13,7 +13,8 @@ int main() {
     sf::Clock clockForMove;
     sf::Clock clockForPlrSprt;
     sf::Clock clockForChBotDir;
-    
+    sf::Clock clockForStartGame;
+
     //Level zero_level(ZERO_LEVEL);
     //Level level_s(ZERO_LEVEL_S);
     
@@ -25,7 +26,7 @@ int main() {
     levels.push_back(level_s);
     
     Map map(levels);
-    Player* player = new Player(textures::playerTexture, sf::Vector2f(360, 184));
+    Player* player = new Player(textures::playerTexture, sf::Vector2f(586, 536));
     Scale scale = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
     bot.setPosition(sf::Vector2f(586, 408));
@@ -40,13 +41,14 @@ int main() {
     
     int actualPointCount;
     int pointCount = map.getPoints().size();
+    bool doStartGame = false;
 
     while (window.isOpen()) {
         float timeForMove           = clockForMove.getElapsedTime().asMicroseconds();  
         float timeForPlrSprt        = clockForPlrSprt.getElapsedTime().asSeconds();
         float timeForChBotDir       = clockForChBotDir.getElapsedTime().asSeconds();
         sf::IntRect lastTextureRect = player->getSprite().getTextureRect();
-        Direction lastBotDirection = bot.getDirection();
+        Direction lastBotDirection  = bot.getDirection();
         clockForMove.restart();
         actualPointCount = map.getPoints().size();
 
@@ -57,38 +59,66 @@ int main() {
             }
         }
     
-        if (pointCount != actualPointCount) {
-            pointCount = actualPointCount;
-            scale.addCollectedPoint();
-        }
-
-        if (!scale.isAllPointCollected() && !bot.catchPlayer(player))
+        if (doStartGame)
         {
-            player->Update(map, timeForMove, timeForPlrSprt);
-            bot.Update(map, timeForMove, timeForChBotDir);
+            if (pointCount != actualPointCount) {
+                pointCount = actualPointCount;
+                scale.addCollectedPoint();
+            }
+
+            if (!scale.isAllPointCollected() && !bot.catchPlayer(player))
+            {
+                player->Update(map, timeForMove, timeForPlrSprt);
+                bot.Update(map, timeForMove, timeForChBotDir);
+            }
+
+            if (lastTextureRect != player->getSprite().getTextureRect())
+                clockForPlrSprt.restart();
+
+            if (lastBotDirection != bot.getDirection())
+                clockForChBotDir.restart();
         }
-
-        if (lastTextureRect != player->getSprite().getTextureRect())
-            clockForPlrSprt.restart();
-
-        if (lastBotDirection != bot.getDirection())
-            clockForChBotDir.restart();
+        else {
+            float time = clockForStartGame.getElapsedTime().asSeconds();
+            if (time > 2)
+                doStartGame = true;
+        }
 
         window.clear(sf::Color::Black);
         window.draw(map);
-        window.draw(player->getSprite());
-        window.draw(bot.getSprite());
+        
         if (scale.isAllPointCollected())
         {
             end.setString("You win!");
-            end.setFillColor(sf::Color::Green);
+            end.setFillColor(sf::Color::Cyan);
             window.draw(end);
         }
+
         if (bot.catchPlayer(player)) {
-            end.setString("You lose!");
-            end.setFillColor(sf::Color::Red);
-            window.draw(end);
+            if (player->getMode()) {
+                bot.setPosition(sf::Vector2f(586, 408));
+                bot.setDirection(Direction::LEFT);
+            }
+            else if (player->getHP() == 1) {
+                end.setString("You lose!");
+                end.setFillColor(sf::Color::Red);
+                window.draw(end);
+            }
+            else {
+                player->setPosition(sf::Vector2f(586, 536));
+                player->takeDamage(1);
+                player->setDirection(Direction::LEFT);
+                player->getController()->setPressedButton(PressedButton::A);
+                player->getSprite().setTextureRect(sf::IntRect(48, 0, -16, 16));
+                bot.setPosition(sf::Vector2f(586, 408));
+                bot.setDirection(Direction::LEFT);
+                doStartGame = false;
+                clockForStartGame.restart();
+            }
         }
+
+        window.draw(player->getSprite());
+        window.draw(bot.getSprite());
         window.draw(scale);
         window.display();
     }

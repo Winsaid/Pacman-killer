@@ -34,7 +34,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         if (smallPlayerRect.intersects(points[index].getGlobalBounds()))
             map.deletePoint(index);
         if (points[index].getRadius() == 12) {
-            player->setMadTime(31);
+            player->setMadMode();
         }
     }
 
@@ -42,10 +42,6 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) this->_pressedButton = PressedButton::D;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) this->_pressedButton = PressedButton::W;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) this->_pressedButton = PressedButton::S;
-
-    if (player->getMadTime() != 0) {
-        //поведение при злом состоянии
-    }
 
     if (this->_pressedButton == PressedButton::A) {
         updated_pos.x -= playerSpeed * time;

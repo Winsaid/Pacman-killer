@@ -21,6 +21,5 @@ public:
 	bool catchPlayer(Player* player);
 
 private:
-	std::vector<Direction> _lastDirections;
-	int _count = 0;
+	sf::Vector2f _lastPosition;
 };

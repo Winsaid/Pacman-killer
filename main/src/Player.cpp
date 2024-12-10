@@ -2,15 +2,27 @@
 #include "PlayerController.h"
 #include "Map.h"
 
+bool Player::getMode() 
+{
+    float time = this->getTime();
+    return time < 30 ? true : false;
+}
+
+float Player::getTime() 
+{
+    return timerForMad.getElapsedTime().asSeconds(); 
+}
+
 Player::Player(sf::Texture& texture, sf::Vector2f start_pos) {
     _pos = start_pos;
-    _health = 1;
+    _health = 3;
 
     _controller = PlayerController::getPlayerController();
 
     _sprite.setTexture(texture);
-    _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
+    _sprite.setTextureRect(sf::IntRect(48, 0, -16, 16));
     _sprite.setScale(2, 2);
+    _sprite.setPosition(start_pos);
     _size = sf::Vector2f(32, 32);
 }
 
@@ -21,7 +33,7 @@ void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
 
     _controller->ControllPlayer( this, map, timeForMove / 400);
 
-    if (timeForPlrSprt > 0.12) {
+    if (timeForPlrSprt > 0.10) {
         if (_direction == Direction::RIGHT) {
             if (lastDirection != Direction::RIGHT) {
                 _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
