@@ -4,13 +4,23 @@
 
 bool Player::getMode() 
 {
-    float time = this->getTime();
-    return time < 30 ? true : false;
+    return _madMode;
+}
+
+void Player::setMadMode() 
+{
+    _timerForMad.restart();
+    _madMode = true;
+}
+
+void Player::unsetMadMode() 
+{
+    _madMode = false;
 }
 
 float Player::getTime() 
 {
-    return timerForMad.getElapsedTime().asSeconds(); 
+    return _timerForMad.getElapsedTime().asSeconds();
 }
 
 Player::Player(sf::Texture& texture, sf::Vector2f start_pos) {
@@ -29,11 +39,10 @@ Player::Player(sf::Texture& texture, sf::Vector2f start_pos) {
 Player::~Player() {}
 
 void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
-    Direction lastDirection = _direction;   
-
+    Direction lastDirection = _direction;
     _controller->ControllPlayer( this, map, timeForMove / 400);
 
-    if (timeForPlrSprt > 0.10) {
+    if (timeForPlrSprt > 0.1) {
         if (_direction == Direction::RIGHT) {
             if (lastDirection != Direction::RIGHT) {
                 _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));

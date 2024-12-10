@@ -24,10 +24,10 @@ int main() {
     std::vector<Level> levels;
     levels.push_back(zero_level);
     levels.push_back(level_s);
-    
+   
     Map map(levels);
     Player* player = new Player(textures::playerTexture, sf::Vector2f(586, 536));
-    Scale scale = getScale(map.getPoints().size());
+    Scale scale    = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
     bot.setPosition(sf::Vector2f(586, 408));
 
@@ -38,6 +38,19 @@ int main() {
     end.setCharacterSize(30);
     end.setFont(font);
     end.setPosition(sf::Vector2f(600.f, 50.f));
+    
+    sf::Sprite health;
+    health.setTexture(textures::playerTexture);
+    health.setTextureRect(sf::IntRect(16, 16, 16, 16));
+    health.setScale(2, 2);
+    health.setPosition(sf::Vector2f(400.f, 50.f));
+
+    std::vector<sf::Sprite> healths;
+    for (int index = 0; index < player->getHP(); ++index)
+    {
+        healths.push_back(health);
+        health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
+    }
     
     int actualPointCount;
     int pointCount = map.getPoints().size();
@@ -59,15 +72,13 @@ int main() {
             }
         }
     
-        if (doStartGame)
-        {
+        if (doStartGame) {
             if (pointCount != actualPointCount) {
                 pointCount = actualPointCount;
                 scale.addCollectedPoint();
             }
 
-            if (!scale.isAllPointCollected() && !bot.catchPlayer(player))
-            {
+            if (!scale.isAllPointCollected() && player->getHP() > 0) {
                 player->Update(map, timeForMove, timeForPlrSprt);
                 bot.Update(map, timeForMove, timeForChBotDir);
             }
@@ -84,34 +95,32 @@ int main() {
                 doStartGame = true;
         }
 
+        if (player->getMode() == true && player->getTime() > 15)
+            player->unsetMadMode();
+
         window.clear(sf::Color::Black);
         window.draw(map);
         
-        if (scale.isAllPointCollected())
-        {
+        if (scale.isAllPointCollected()) {
             end.setString("You win!");
             end.setFillColor(sf::Color::Cyan);
             window.draw(end);
         }
 
-        if (bot.catchPlayer(player)) {
+        if (bot.catchPlayer(player) && player->getHP() != 0) {
             if (player->getMode()) {
                 bot.setPosition(sf::Vector2f(586, 408));
                 bot.setDirection(Direction::LEFT);
             }
-            else if (player->getHP() == 1) {
-                end.setString("You lose!");
-                end.setFillColor(sf::Color::Red);
-                window.draw(end);
-            }
-            else {
-                player->setPosition(sf::Vector2f(586, 536));
+            else if (player->getHP() > 0) {
                 player->takeDamage(1);
+                player->setPosition(sf::Vector2f(586, 536));
                 player->setDirection(Direction::LEFT);
                 player->getController()->setPressedButton(PressedButton::A);
                 player->getSprite().setTextureRect(sf::IntRect(48, 0, -16, 16));
                 bot.setPosition(sf::Vector2f(586, 408));
                 bot.setDirection(Direction::LEFT);
+                healths.pop_back();
                 doStartGame = false;
                 clockForStartGame.restart();
             }
@@ -119,6 +128,16 @@ int main() {
 
         window.draw(player->getSprite());
         window.draw(bot.getSprite());
+        if (player->getHP() != 0)
+            for (sf::Sprite currentHealth : healths) {
+                window.draw(currentHealth);
+            }
+
+        if (player->getHP() == 0) {
+            end.setString("You lose!");
+            end.setFillColor(sf::Color::Red);
+            window.draw(end);
+        }
         window.draw(scale);
         window.display();
     }

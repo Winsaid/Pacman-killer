@@ -17,14 +17,16 @@ public:
 
 	void Update(Map &map, float time, float timeForMove);
 	void setState(State state) { _state = state; }
-	void setMadMode() { timerForMad.restart(); }
+	void setMadMode();
+	void unsetMadMode();
 	
 	PlayerController* getController() { return _controller; }
 	bool getMode();
 	float getTime();
 
 private:
-	sf::Clock timerForMad;
+	sf::Clock         _timerForMad;
 	State             _state = State::IDLE;
 	PlayerController* _controller;
+	bool              _madMode = false;
 };

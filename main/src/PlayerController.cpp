@@ -29,12 +29,13 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
     smallPlayerRect.top += 18;
     smallPlayerRect.left += 18;
 
-    for (int index = 0; index < points.size(); ++index)
-    {
-        if (smallPlayerRect.intersects(points[index].getGlobalBounds()))
+    for (int index = 0; index < points.size(); ++index) {
+        if (smallPlayerRect.intersects(points[index].getGlobalBounds())) {
             map.deletePoint(index);
-        if (points[index].getRadius() == 12) {
-            player->setMadMode();
+
+            if (points[index].getRadius() == 8) {
+                player->setMadMode();
+            }
         }
     }
 
