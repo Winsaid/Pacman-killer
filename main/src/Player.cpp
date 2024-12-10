@@ -2,16 +2,16 @@
 #include "PlayerController.h"
 #include "Map.h"
 
-Player::Player(sf::Texture& texture, sf::Vector2f start_pos, float health) {
+Player::Player(sf::Texture& texture, sf::Vector2f start_pos) {
     _pos = start_pos;
-    _health = health;
+    _health = 1;
 
     _controller = PlayerController::getPlayerController();
 
     _sprite.setTexture(texture);
     _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
     _sprite.setScale(2, 2);
-    _size = sf::Vector2f(_sprite.getTextureRect().width, _sprite.getTextureRect().height);
+    _size = sf::Vector2f(32, 32);
 }
 
 Player::~Player() {}
@@ -79,10 +79,4 @@ void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
             }
         }
     }
-    
-    _sprite.setPosition(_pos);
-}
-
-void Player::UpdateSprite() {
-    
 }

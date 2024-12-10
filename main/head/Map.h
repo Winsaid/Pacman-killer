@@ -10,6 +10,7 @@ public:
 	std::vector<sf::String> getStrings() { return _strings; }
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
+	sf::FloatRect getIntersectBlock(sf::FloatRect rect);
 
 private:
 	std::vector<sf::String> _strings;
@@ -28,6 +29,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
 	void deletePoint(int index);
+	sf::FloatRect getIntersectBlock(sf::FloatRect rect);
 
 private:
 	std::vector<Level> _levels;

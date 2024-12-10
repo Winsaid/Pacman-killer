@@ -12,6 +12,7 @@ int main() {
 
     sf::Clock clockForMove;
     sf::Clock clockForPlrSprt;
+    sf::Clock clockForChBotDir;
     
     //Level zero_level(ZERO_LEVEL);
     //Level level_s(ZERO_LEVEL_S);
@@ -35,8 +36,6 @@ int main() {
     sf::Text end;
     end.setCharacterSize(30);
     end.setFont(font);
-    end.setString("You win!");
-    end.setFillColor(sf::Color::Green);
     end.setPosition(sf::Vector2f(600.f, 50.f));
     
     int actualPointCount;
@@ -45,7 +44,9 @@ int main() {
     while (window.isOpen()) {
         float timeForMove           = clockForMove.getElapsedTime().asMicroseconds();  
         float timeForPlrSprt        = clockForPlrSprt.getElapsedTime().asSeconds();
+        float timeForChBotDir       = clockForChBotDir.getElapsedTime().asSeconds();
         sf::IntRect lastTextureRect = player->getSprite().getTextureRect();
+        Direction lastBotDirection = bot.getDirection();
         clockForMove.restart();
         actualPointCount = map.getPoints().size();
 
@@ -61,20 +62,33 @@ int main() {
             scale.addCollectedPoint();
         }
 
-        if (!scale.isAllPointCollected()) 
+        if (!scale.isAllPointCollected() && !bot.catchPlayer(player))
         {
             player->Update(map, timeForMove, timeForPlrSprt);
-            bot.Update(map, timeForMove);
+            bot.Update(map, timeForMove, timeForChBotDir);
         }
 
         if (lastTextureRect != player->getSprite().getTextureRect())
             clockForPlrSprt.restart();
 
+        if (lastBotDirection != bot.getDirection())
+            clockForChBotDir.restart();
+
         window.clear(sf::Color::Black);
         window.draw(map);
         window.draw(player->getSprite());
         window.draw(bot.getSprite());
-        if (scale.isAllPointCollected()) window.draw(end);
+        if (scale.isAllPointCollected())
+        {
+            end.setString("You win!");
+            end.setFillColor(sf::Color::Green);
+            window.draw(end);
+        }
+        if (bot.catchPlayer(player)) {
+            end.setString("You lose!");
+            end.setFillColor(sf::Color::Red);
+            window.draw(end);
+        }
         window.draw(scale);
         window.display();
     }

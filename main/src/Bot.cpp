@@ -1,6 +1,6 @@
 #include "Bot.h"
 
-const int LEVEL_TWO_BOT_START_X = 620;
+const int LEVEL_TWO_BOT_START_X = 624;
 const int LEVEL_TWO_BOT_START_Y = 500;
 
 Bot::Bot(BotType color, sf::Texture& texture)
@@ -10,27 +10,28 @@ Bot::Bot(BotType color, sf::Texture& texture)
 
 	switch (color) {
 	case Red:
-		_sprite.setTextureRect(sf::IntRect(64, 64, 16, 16));
+		_sprite.setTextureRect(sf::IntRect(32, 64, 16, 16));
 	case Pink:
-		_sprite.setTextureRect(sf::IntRect(64, 80, 16, 16));
+		_sprite.setTextureRect(sf::IntRect(32, 80, 16, 16));
 	case Blue:
-		_sprite.setTextureRect(sf::IntRect(64, 96, 16, 16));
+		_sprite.setTextureRect(sf::IntRect(32, 96, 16, 16));
 	case Orange:
-		_sprite.setTextureRect(sf::IntRect(64, 112, 16, 16));
+		_sprite.setTextureRect(sf::IntRect(32, 112, 16, 16));
 	}
 
 	_sprite.setScale(2, 2);
 	_pos.x  = LEVEL_TWO_BOT_START_X;
-	_pos.x  = LEVEL_TWO_BOT_START_Y;
+	_pos.y  = LEVEL_TWO_BOT_START_Y;
 	_health = 1;
+	_size = sf::Vector2f(32, 32);
 }
 
-void Bot::Update(Map& map,  float time)
+void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 {
 	Direction lastDirection = _direction;
 	sf::FloatRect rect      = this->_sprite.getGlobalBounds();
-	time                   /= 400;
-	float botSpeed          = 0.08;
+	timeForMove /= 400;
+	float botSpeed          = 0.06;
 	std::vector<Direction> availableDirections;
 
 	sf::FloatRect botRect = this->getSprite().getGlobalBounds();
@@ -54,20 +55,11 @@ void Bot::Update(Map& map,  float time)
 		availableDirections.push_back(Direction::LEFT);
 	}
 
-	if (availableDirections.size() > 1) {
-		int directionCount  = availableDirections.size();
-		int randomDirection = rand() % (directionCount + 1) + 1;
-		if (randomDirection > directionCount)
-			_direction = availableDirections[randomDirection - 2];
-		else if (randomDirection = directionCount)
-			_direction = availableDirections[randomDirection - 1];
-	}
-	else if (availableDirections.size() == 1) {
-		if (_direction == Direction::LEFT)       _direction == Direction::RIGHT;
-		else if (_direction == Direction::RIGHT) _direction == Direction::LEFT;
-		else if (_direction == Direction::UP)    _direction == Direction::DOWN;
-		else if (_direction == Direction::DOWN)  _direction == Direction::UP;
-	}
+	int max = availableDirections.size();
+	int randNum = rand() % (max);
+	
+	if (timeForChBotDir > 3)
+		_direction = availableDirections[randNum];
 
 	_lastDirections = availableDirections;
 	sf::Vector2f updated_pos = this->_pos;
@@ -75,60 +67,57 @@ void Bot::Update(Map& map,  float time)
 	switch (_direction) {
 	case Direction::RIGHT:
 		_sprite.setTextureRect(sf::IntRect(0, _sprite.getTextureRect().top, 16, 16));
-		updated_pos.x += botSpeed * time + 0.15;
-		_sprite.setPosition(updated_pos);
+		updated_pos.x += botSpeed * timeForMove;
 		break;
 
 	case Direction::LEFT:
 		_sprite.setTextureRect(sf::IntRect(32, _sprite.getTextureRect().top, 16, 16));
-		updated_pos.x -= botSpeed * time + 0.15;
-		_sprite.setPosition(updated_pos);
+		updated_pos.x -= botSpeed * timeForMove;
 		break;
 
 	case Direction::UP:
 		_sprite.setTextureRect(sf::IntRect(64, _sprite.getTextureRect().top, 16, 16));
-		updated_pos.y -= botSpeed * time + 0.15;
-		_sprite.setPosition(updated_pos);
+		updated_pos.y -= botSpeed * timeForMove;
 		break;
 
 	case Direction::DOWN:
 		_sprite.setTextureRect(sf::IntRect(96, _sprite.getTextureRect().top, 16, 16));
-		updated_pos.y += botSpeed * time + 0.15;
-		_sprite.setPosition(updated_pos);
+		updated_pos.y += botSpeed * timeForMove;
 		break;
 	}
 
+	sf::FloatRect updatedBotRect(updated_pos,this->getSize());
+	if (!map.isAvailableZone(updatedBotRect)) {
+		sf::FloatRect block = map.getIntersectBlock(updatedBotRect);
+		float intersect;
+		if (_direction == Direction::RIGHT) {
+			updated_pos.x = block.left - 32;
+		}
+		else if (_direction == Direction::LEFT) {
+			updated_pos.x = block.left + 32;
+		}
+		else if (_direction == Direction::UP) {
+			updated_pos.y = block.top + 32;
+		}
+		else if (_direction == Direction::DOWN) {
+			updated_pos.y = block.top - 32;
+		}
+	}
+
+	_sprite.setPosition(updated_pos);
 	_pos = updated_pos;
 }
 
-std::vector<Direction> Bot::getAvailableDirection(Map map)
-{                                                                               
-	sf::FloatRect botRect = this->_sprite.getGlobalBounds();
-	botRect.top -= 1.5;
-	std::vector<Direction> availableDirection;
-	//if (!map.isAvailableZone(botRect)) {
-	botRect.left += 2;
-	//}
-	//botRect.top -= 1.5;
-	//if (map.isAvailableZone(botRect)) 
-	//{
-	//	availableDirection.push_back(Direction::UP);
-	//}
-	//botRect.top += 3;
-	//if (map.isAvailableZone(botRect)) 
-	//{
-	//	availableDirection.push_back(Direction::DOWN);
-	//}
-	//botRect.top -= 1.5;
-	//botRect.left += 1.5;
-	//if (map.isAvailableZone(botRect))
-	//{
-	//	availableDirection.push_back(Direction::RIGHT);
-	//}
-	//botRect.left -= 3;
-	//if (map.isAvailableZone(botRect)) 
-	//{
-	//	availableDirection.push_back(Direction::LEFT);
-	//}
-	return availableDirection;
+bool Bot::catchPlayer(Player* player)
+{
+	sf::FloatRect playerRect = player->getSprite().getGlobalBounds();
+	playerRect.top += 12;
+	playerRect.left += 12;
+	playerRect.height -= 24;
+	playerRect.width -= 24;
+
+	if (this->getSprite().getGlobalBounds().intersects(playerRect))
+		return true;
+
+	return false;
 }

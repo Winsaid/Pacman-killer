@@ -29,6 +29,12 @@ Map::Map(std::vector<Level> levels) : _levels(levels)
 				point.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2 + 44, MAP_START_LEVEL_TWO_Y + i * 16 * 2 + 12));
 				_points.push_back(point);
 			}
+			else if (tempStr == sf::String("0!")) {
+				point.setRadius(8);
+				point.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2 + 40, MAP_START_LEVEL_TWO_Y + i * 16 * 2 + 8));
+				_points.push_back(point);
+				point.setRadius(4);
+			}
 		}
 	}
 }
@@ -43,6 +49,7 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
+	sprite.setScale(2, 2);
 
 	sf::String tempStr;
 
@@ -91,15 +98,30 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 			else if (tempStr == sf::String("08")) {
 				sprite.setTextureRect(sf::IntRect(176, 32, 16, 16));
 			}
-			else if (tempStr == sf::String("0_")) {
-				sprite.setTextureRect(sf::IntRect(32, 48, 16, 16));
-			}
 			else {
 				sprite.setTextureRect(sf::IntRect(32, 48, 16, 16));
 			}
-			sprite.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2, MAP_START_LEVEL_TWO_Y + indexY * 16 * 2));
-			sprite.setScale(2, 2);
+
+			sprite.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2, MAP_START_LEVEL_TWO_Y + indexY * 16 * 2));			
 			target.draw(sprite);
+		}
+	}
+}
+
+sf::FloatRect Map::getIntersectBlock(sf::FloatRect rect) {
+	return _levels[0].getIntersectBlock(rect);
+}
+
+sf::FloatRect Level::getIntersectBlock(sf::FloatRect rect) {
+	for (int strIndex = 0; strIndex < _strings.size(); ++strIndex) {
+		for (int chIndex = 0; chIndex < _strings[strIndex].getSize(); ++chIndex) {
+			if (_strings[strIndex][chIndex] == sf::String("0"))
+			{
+				sf::FloatRect blockRect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(32, 32));
+				if (blockRect.intersects(rect)) {
+					return blockRect;
+				}
+			}
 		}
 	}
 }
@@ -122,7 +144,7 @@ bool Level::isAvailableZone(sf::FloatRect playerRect)
 	for (int strIndex = 0; strIndex < _strings.size(); ++strIndex) {
 		for (int chIndex = 0; chIndex < _strings[strIndex].getSize(); ++chIndex) {
 			if (_strings[strIndex][chIndex] == '0') {
-				sf::FloatRect rect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(31, 31));
+				sf::FloatRect rect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(32, 32));
 
 				if (rect.intersects(playerRect)) return false;
 			}
