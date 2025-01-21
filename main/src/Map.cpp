@@ -108,15 +108,31 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-sf::FloatRect Map::getIntersectBlock(sf::FloatRect rect) {
-	return _levels[0].getIntersectBlock(rect);
+sf::FloatRect Map::getIntersectZeroBlock(sf::FloatRect rect) {
+	return _levels[0].getIntersectZeroBlock(rect);
 }
 
-sf::FloatRect Level::getIntersectBlock(sf::FloatRect rect) {
+sf::FloatRect Level::getIntersectZeroBlock(sf::FloatRect rect) {
 	for (int strIndex = 0; strIndex < _strings.size(); ++strIndex) {
 		for (int chIndex = 0; chIndex < _strings[strIndex].getSize(); ++chIndex) {
-			if (_strings[strIndex][chIndex] == sf::String("0"))
-			{
+			if (_strings[strIndex][chIndex] == sf::String("0")) {
+				sf::FloatRect blockRect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(32, 32));
+				if (blockRect.intersects(rect)) {
+					return blockRect;
+				}
+			}
+		}
+	}
+}
+
+sf::FloatRect Map::getIntersectNoZeroBlock(sf::FloatRect rect) {
+	return _levels[0].getIntersectNoZeroBlock(rect);
+}
+
+sf::FloatRect Level::getIntersectNoZeroBlock(sf::FloatRect rect) {
+	for (int strIndex = 0; strIndex < _strings.size(); ++strIndex) {
+		for (int chIndex = 0; chIndex < _strings[strIndex].getSize(); ++chIndex) {
+			if (_strings[strIndex][chIndex] == sf::String("1") || _strings[strIndex][chIndex] == sf::String("2")) {
 				sf::FloatRect blockRect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(32, 32));
 				if (blockRect.intersects(rect)) {
 					return blockRect;
@@ -154,3 +170,30 @@ bool Level::isAvailableZone(sf::FloatRect playerRect)
 	return true;
 }
 
+bool Map::canDefinePacmanPos(sf::FloatRect rect)
+{
+	if (_levels[0].canDefinePacmanPos(rect)) 
+		return true;
+
+	return false;
+}
+
+bool Level::canDefinePacmanPos(sf::FloatRect playerRect)
+{
+	for (int strIndex = 0; strIndex < _strings.size(); ++strIndex) {
+		for (int chIndex = 0; chIndex < _strings[strIndex].getSize(); ++chIndex) {
+			if (_strings[strIndex][chIndex] == '2') {
+				sf::FloatRect rect(sf::Vector2f(MAP_START_LEVEL_TWO_X + chIndex * 16 * 2, MAP_START_LEVEL_TWO_Y + strIndex * 16 * 2), sf::Vector2f(32, 32));
+
+				if (std::abs(rect.top - playerRect.top) < 1 && std::abs(rect.left - playerRect.left) < 2) return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+void Map::setPlayerRect(sf::FloatRect playerRect)
+{
+	this->_playerRect = playerRect;
+}

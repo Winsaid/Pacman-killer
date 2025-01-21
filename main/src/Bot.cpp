@@ -28,29 +28,37 @@ Bot::Bot(BotType color, sf::Texture& texture)
 
 void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 {
+	sf::FloatRect botRect = this->getSprite().getGlobalBounds();
+
+	if (map.canDefinePacmanPos(botRect)) {
+		auto playerPos = map.getPlayerRect();
+		auto botPos    = this->getSprite().getGlobalBounds();
+		auto start     = map.getIntersectNoZeroBlock(botPos);
+		auto end       = map.getIntersectNoZeroBlock(playerPos);
+
+
+	}
+
 	Direction lastDirection = _direction;
 	sf::FloatRect rect      = this->_sprite.getGlobalBounds();
 	timeForMove /= 400;
 	float botSpeed          = 0.06;
 	std::vector<Direction> availableDirections;
 
-	sf::FloatRect botRect = this->getSprite().getGlobalBounds();
-
-	botRect.top -= 2;
+	botRect.top -= 0.5;
 	if (map.isAvailableZone(botRect)) {
 		availableDirections.push_back(Direction::UP);
 	}
-	botRect.top += 4;
-	if (map.isAvailableZone(botRect))
-	{
+	botRect.top += 1;
+	if (map.isAvailableZone(botRect)) {
 		availableDirections.push_back(Direction::DOWN);
 	}
-	botRect.top -= 2;
-	botRect.left += 2;
+	botRect.top -= 0.5;
+	botRect.left += 0.5;
 	if (map.isAvailableZone(botRect)) {
 		availableDirections.push_back(Direction::RIGHT);
 	}
-	botRect.left -= 4;
+	botRect.left -= 1;
 	if (map.isAvailableZone(botRect)) {
 		availableDirections.push_back(Direction::LEFT);
 	}
@@ -86,9 +94,9 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 
 	sf::FloatRect updatedBotRect(updated_pos,this->getSize());
 	if (!map.isAvailableZone(updatedBotRect)) {
-		sf::FloatRect block = map.getIntersectBlock(updatedBotRect);
+		sf::FloatRect block = map.getIntersectZeroBlock(updatedBotRect);
 		float intersect;
-		if (_direction == Direction::RIGHT) {
+		if (_direction == Direction::RIGHT) { 
 			updated_pos.x = block.left - 32;
 		}
 		else if (_direction == Direction::LEFT) {

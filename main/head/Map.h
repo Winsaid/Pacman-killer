@@ -10,7 +10,9 @@ public:
 	std::vector<sf::String> getStrings() { return _strings; }
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
-	sf::FloatRect getIntersectBlock(sf::FloatRect rect);
+	sf::FloatRect getIntersectZeroBlock(sf::FloatRect rect);
+	sf::FloatRect getIntersectNoZeroBlock(sf::FloatRect rect);
+	bool canDefinePacmanPos(sf::FloatRect rect);
 
 private:
 	std::vector<sf::String> _strings;
@@ -25,15 +27,21 @@ public:
 	std::vector<sf::CircleShape> getPoints() { return _points; }
 	int getStartPointCount() { return _startPointCount; }
 
+	void setPlayerRect(sf::FloatRect playerRect);
+	sf::FloatRect getPlayerRect() { return _playerRect; }
+
     void addLevel(Level level) { _levels.push_back(level); }
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
 	void deletePoint(int index);
-	sf::FloatRect getIntersectBlock(sf::FloatRect rect);
+	sf::FloatRect getIntersectZeroBlock(sf::FloatRect rect);
+	sf::FloatRect getIntersectNoZeroBlock(sf::FloatRect rect);
+	bool canDefinePacmanPos(sf::FloatRect rect);
 
 private:
 	std::vector<Level> _levels;
 	std::vector<sf::CircleShape> _points;
 	int _startPointCount;
+	sf::FloatRect _playerRect;
 
 };

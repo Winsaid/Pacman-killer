@@ -52,7 +52,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         if (!map.isAvailableZone(playerRect))
         {
             if (lastPressedButton == PressedButton::S) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.top += 32;
                 if (block.top - playerRect.top < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top;
@@ -63,7 +63,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
                 }
             }
             else if (lastPressedButton == PressedButton::W) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.top -= 32;
                 if (playerRect.top - block.top < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top;
@@ -97,7 +97,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
 
             sf::FloatRect updatedPlayerRect(updated_pos, player->getSize());
             if (!map.isAvailableZone(updatedPlayerRect)) {
-                sf::FloatRect block = map.getIntersectBlock(updatedPlayerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(updatedPlayerRect);
                 if (player->getDirection() == Direction::RIGHT) {
                     updated_pos.x = block.left - 32;
                 }
@@ -131,7 +131,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         if (!map.isAvailableZone(playerRect))
         {
             if (lastPressedButton == PressedButton::S) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.top += 32;
                 if (block.top - playerRect.top < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top;
@@ -142,7 +142,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
                 }
             }
             else if (lastPressedButton == PressedButton::W) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.top -= 32;
                 if (playerRect.top - block.top < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top;
@@ -176,7 +176,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
 
             sf::FloatRect updatedPlayerRect(updated_pos, player->getSize());
             if (!map.isAvailableZone(updatedPlayerRect)) {
-                sf::FloatRect block = map.getIntersectBlock(updatedPlayerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(updatedPlayerRect);
                 if (player->getDirection() == Direction::RIGHT) {
                     updated_pos.x = block.left - 32;
                 }
@@ -210,7 +210,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         if (!map.isAvailableZone(playerRect))
         {
             if (lastPressedButton == PressedButton::A) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.left -= 32;
                 if (playerRect.left - block.left < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top + 32;
@@ -221,7 +221,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
                 }
             }
             else if (lastPressedButton == PressedButton::D) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.left += 32;
                 if (block.left - playerRect.left < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top + 32;
@@ -255,7 +255,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
 
             sf::FloatRect updatedPlayerRect(updated_pos, player->getSize());
             if (!map.isAvailableZone(updatedPlayerRect)) {
-                sf::FloatRect block = map.getIntersectBlock(updatedPlayerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(updatedPlayerRect);
                 if (player->getDirection() == Direction::RIGHT) {
                     updated_pos.x = block.left - 32;
                 }
@@ -289,7 +289,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         if (!map.isAvailableZone(playerRect))
         {
             if (lastPressedButton == PressedButton::A) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.left -= 32;
                 if (playerRect.left - block.left < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top - 32;
@@ -300,7 +300,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
                 }
             }
             else if (lastPressedButton == PressedButton::D) {
-                sf::FloatRect block = map.getIntersectBlock(playerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(playerRect);
                 block.left += 32;
                 if (block.left - playerRect.left < 1 && map.isAvailableZone(block)) {
                     updated_pos.y = block.top - 32;
@@ -334,7 +334,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
 
             sf::FloatRect updatedPlayerRect(updated_pos, player->getSize());
             if (!map.isAvailableZone(updatedPlayerRect)) {
-                sf::FloatRect block = map.getIntersectBlock(updatedPlayerRect);
+                sf::FloatRect block = map.getIntersectZeroBlock(updatedPlayerRect);
                 if (player->getDirection() == Direction::RIGHT) {
                     updated_pos.x = block.left - 32;
                 }
@@ -363,7 +363,7 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
 
     sf::FloatRect updatedPlayerRect(updated_pos, player->getSize());
     if (!map.isAvailableZone(updatedPlayerRect)) {
-        sf::FloatRect block = map.getIntersectBlock(updatedPlayerRect);
+        sf::FloatRect block = map.getIntersectZeroBlock(updatedPlayerRect);
         if (player->getDirection() == Direction::RIGHT) {
             updated_pos.x = block.left - 32;
         }

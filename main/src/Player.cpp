@@ -41,6 +41,7 @@ Player::~Player() {}
 void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
     Direction lastDirection = _direction;
     _controller->ControllPlayer( this, map, timeForMove / 400);
+    map.setPlayerRect(this->getSprite().getGlobalBounds());
 
     if (timeForPlrSprt > 0.1) {
         if (_direction == Direction::RIGHT) {

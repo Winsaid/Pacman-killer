@@ -15,17 +15,31 @@ int main() {
     sf::Clock clockForChBotDir;
     sf::Clock clockForStartGame;
 
-    //Level zero_level(ZERO_LEVEL);
-    //Level level_s(ZERO_LEVEL_S);
+    int levelNumber = 2;
+
+    std::vector<std::vector<Level>> levels;
+
+    Level levelZeroBin(ZERO_LEVEL);
+    Level levelZero(ZERO_LEVEL_S);
     
-    Level zero_level(LEVEL_TWO);
-    Level level_s(LEVEL_TWO_S);
+    Level levelTwoBin(LEVEL_TWO);
+    Level levelTwo(LEVEL_TWO_S);
     
-    std::vector<Level> levels;
-    levels.push_back(zero_level);
-    levels.push_back(level_s);
+    std::vector<Level> levelZeroVec;
+    std::vector<Level> levelOneVec;
+    std::vector<Level> levelTwoVec;
+
+    levelZeroVec.push_back(levelZeroBin);
+    levelZeroVec.push_back(levelZero);
+
+    levelTwoVec.push_back(levelTwoBin);
+    levelTwoVec.push_back(levelTwo);
+
+    levels.push_back(levelZeroVec);
+    levels.push_back(levelOneVec);
+    levels.push_back(levelTwoVec);
    
-    Map map(levels);
+    Map map(levels[2]);
     Player* player = new Player(textures::playerTexture, sf::Vector2f(586, 536));
     Scale scale    = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
