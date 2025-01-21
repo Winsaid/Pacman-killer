@@ -6,6 +6,6 @@ namespace textures {
 	sf::Texture playerTexture;
 
 	static void setTextures() {
-		playerTexture.loadFromFile("./images/pacman-sheet.png");
+		playerTexture.loadFromFile("../../../../images/pacman-sheet.png");
 	}
 }

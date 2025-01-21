@@ -49,7 +49,7 @@ cmake_ninja_workdir = C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\mai
 
 build cmake_object_order_depends_target_main: phony || CMakeFiles\main.dir
 
-build CMakeFiles\main.dir\src\main_window.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\main_window.cpp || cmake_object_order_depends_target_main
+build CMakeFiles\main.dir\src\main.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\main.cpp || cmake_object_order_depends_target_main
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
   INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
   OBJECT_DIR = CMakeFiles\main.dir
@@ -58,6 +58,54 @@ build CMakeFiles\main.dir\src\main_window.cpp.obj: CXX_COMPILER__main_unscanned_
   TARGET_PDB = main.pdb
 
 build CMakeFiles\main.dir\src\class_button.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\class_button.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\Map.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\Map.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\Bot.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\Bot.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\Character.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\Character.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\Player.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\Player.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\PlayerController.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\PlayerController.cpp || cmake_object_order_depends_target_main
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
+  INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\main.dir\
+  TARGET_PDB = main.pdb
+
+build CMakeFiles\main.dir\src\Scale.cpp.obj: CXX_COMPILER__main_unscanned_Debug C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\src\Scale.cpp || cmake_object_order_depends_target_main
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++14
   INCLUDES = -external:IC:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\include -external:W0
   OBJECT_DIR = CMakeFiles\main.dir
@@ -81,7 +129,7 @@ build CMakeFiles\main.dir\src\window.cpp.obj: CXX_COMPILER__main_unscanned_Debug
 #############################################
 # Link the executable main.exe
 
-build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles\main.dir\src\main_window.cpp.obj CMakeFiles\main.dir\src\class_button.cpp.obj CMakeFiles\main.dir\src\window.cpp.obj | C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib
+build main.exe: CXX_EXECUTABLE_LINKER__main_Debug CMakeFiles\main.dir\src\main.cpp.obj CMakeFiles\main.dir\src\class_button.cpp.obj CMakeFiles\main.dir\src\Map.cpp.obj CMakeFiles\main.dir\src\Bot.cpp.obj CMakeFiles\main.dir\src\Character.cpp.obj CMakeFiles\main.dir\src\Player.cpp.obj CMakeFiles\main.dir\src\PlayerController.cpp.obj CMakeFiles\main.dir\src\Scale.cpp.obj CMakeFiles\main.dir\src\window.cpp.obj | C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib C$:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-graphics-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-audio-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-window-d.lib  C:\Users\Winsaid\dev\tpro\Pacman-killer\Pacman-killer\main\SFML-2.6.2\lib\sfml-system-d.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

@@ -1,4 +1,4 @@
-#include "Scale.h"
+#include "../head/Scale.h"
 
 Scale::Scale(int points, sf::RectangleShape outer)
 	: _points(points), _outer(outer), _inner(outer)
@@ -25,9 +25,9 @@ void Scale::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void Scale::increasePointScale()
 {
-	float increaseWidth = _inner.getSize().x / (_points - _collectedPoints);
+	float increaseWidth  = _inner.getSize().x / (_points - _collectedPoints);
 	sf::Vector2f newSize = _inner.getSize();
-	sf::Vector2f newPos = _inner.getPosition();
+	sf::Vector2f newPos  = _inner.getPosition();
 	newSize.x -= increaseWidth;
 	newPos.x += increaseWidth;
 	_inner.setSize(newSize);

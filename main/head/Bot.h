@@ -2,6 +2,7 @@
 
 #include "Character.h"
 #include "Map.h"
+#include "Player.h"
 #include <vector>
 #include <cstdlib>
 
@@ -16,10 +17,9 @@ class Bot : public Character {
 public:
 	Bot(BotType color, sf::Texture &texture);
 
-	void Update(Map &map, float time);
-	std::vector<Direction> getAvailableDirection(Map map);
+	void Update(Map &map, float timeForMove, float timeForChBotDir);
+	bool catchPlayer(Player* player);
 
 private:
-	std::vector<Direction> _lastDirections;
-
+	sf::Vector2f _lastPosition;
 };

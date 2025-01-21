@@ -18,6 +18,8 @@ public:
 	PlayerController& operator=(const PlayerController& other) = delete;
 	~PlayerController();
 
+	void setPressedButton(PressedButton button) { _pressedButton = button; }
+
 	static PlayerController* getPlayerController();
 	void ControllPlayer(Player* player, Map &map, float time);
 	PressedButton getPressedButton() { return _pressedButton; }
@@ -25,5 +27,5 @@ public:
 private:
 	PlayerController() = default;
 	static PlayerController* _controller;
-	PressedButton _pressedButton = STOP;
+	PressedButton _pressedButton = PressedButton::A;
 };

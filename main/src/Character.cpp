@@ -1,4 +1,4 @@
-#include "Character.h"
+#include "../head/Character.h"
 
 Character::~Character() {}
 

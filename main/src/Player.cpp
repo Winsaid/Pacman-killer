@@ -1,27 +1,49 @@
-#include "Player.h"
-#include "PlayerController.h"
-#include "Map.h"
+#include "../head/Player.h"
+#include "../head/PlayerController.h"
+#include "../head/Map.h"
 
-Player::Player(sf::Texture& texture, sf::Vector2f start_pos, float health) {
+bool Player::getMode() 
+{
+    return _madMode;
+}
+
+void Player::setMadMode() 
+{
+    _timerForMad.restart();
+    _madMode = true;
+}
+
+void Player::unsetMadMode() 
+{
+    _madMode = false;
+}
+
+float Player::getTime() 
+{
+    return _timerForMad.getElapsedTime().asSeconds();
+}
+
+Player::Player(sf::Texture& texture, sf::Vector2f start_pos) {
     _pos = start_pos;
-    _health = health;
+    _health = 3;
 
     _controller = PlayerController::getPlayerController();
 
     _sprite.setTexture(texture);
-    _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
+    _sprite.setTextureRect(sf::IntRect(48, 0, -16, 16));
     _sprite.setScale(2, 2);
-    _size = sf::Vector2f(_sprite.getTextureRect().width, _sprite.getTextureRect().height);
+    _sprite.setPosition(start_pos);
+    _size = sf::Vector2f(32, 32);
 }
 
 Player::~Player() {}
 
 void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
-    Direction lastDirection = _direction;   
-
+    Direction lastDirection = _direction;
     _controller->ControllPlayer( this, map, timeForMove / 400);
+    map.setPlayerRect(this->getSprite().getGlobalBounds());
 
-    if (timeForPlrSprt > 0.12) {
+    if (timeForPlrSprt > 0.1) {
         if (_direction == Direction::RIGHT) {
             if (lastDirection != Direction::RIGHT) {
                 _sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
@@ -79,10 +101,4 @@ void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
             }
         }
     }
-    
-    _sprite.setPosition(_pos);
-}
-
-void Player::UpdateSprite() {
-    
 }
