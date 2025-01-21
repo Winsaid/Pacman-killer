@@ -69,8 +69,8 @@ void Window::addCountRounds() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountRound) {
 			int countRounds = TextToInt(begin->getContent()) + 1;
-			if (countRounds > 9) {
-				begin->setContent(IntToText(0));
+			if (countRounds > 3) {
+				begin->setContent(IntToText(1));
 				break;
 			}
 			begin->setContent(IntToText(countRounds));
@@ -189,9 +189,9 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button SelectMazeButton(
-		setText(std::string("Select Maze"), 75, &font, yellow),
+		setText(std::string("Select Control"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(432, 100), black, sf::Vector2f(100, 490)),
-		"Select Maze",
+		"Select Control",
 		GameState::Exit
 	);
 
@@ -275,9 +275,9 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button Rounds(
-		setText(std::string("Count of rounds"), 75, &font, yellow),
+		setText(std::string("Number of level"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 270)),
-		"Count of rounds",
+		"Number of level",
 		GameState::Empty
 	);
 
@@ -289,7 +289,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button CountRound(
-		setText(std::string("0"), 75, &font, yellow),
+		setText(std::string("1"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 390)),
 		"Count Round",
 		GameState::CountRound

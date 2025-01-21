@@ -6,6 +6,10 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "Player.h"
+#include "Bot.h"
+#include "Scale.h"
+#include "Map.h"
 
 class Window : public sf::Drawable {
 public:
@@ -55,3 +59,4 @@ Window createMainWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createGameWindow(sf::Sprite backgroundSprite, const sf::Font& font);

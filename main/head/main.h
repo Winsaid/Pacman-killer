@@ -7,7 +7,7 @@
 #include "class_window.h"
 #include "GameState.h"
 #include "Character.h"
-#include "Constants.h"
+//#include "Constants.h"
 #include "Textures.h"
 #include "Player.h"
 #include "Map.h"
