@@ -69,8 +69,8 @@ void Window::addCountRounds() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountRound) {
 			int countRounds = TextToInt(begin->getContent()) + 1;
-			if (countRounds > 3) {
-				begin->setContent(IntToText(1));
+			if (countRounds > 2) {
+				begin->setContent(IntToText(0));
 				break;
 			}
 			begin->setContent(IntToText(countRounds));
@@ -84,7 +84,7 @@ void Window::reduceCountRounds() {
 		if (begin->getGameState() == GameState::CountRound) {
 			int countRounds = TextToInt(begin->getContent()) - 1;
 			if (countRounds < 0) {
-				begin->setContent(IntToText(9));
+				begin->setContent(IntToText(2));
 				break;
 			}
 			begin->setContent(IntToText(countRounds));
@@ -96,25 +96,53 @@ void Window::reduceCountRounds() {
 void Window::addCountBots() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountBot) {
-			int countRounds = TextToInt(begin->getContent()) + 1;
-			if (countRounds > 4) {
-				begin->setContent(IntToText(0));
-				break;
-			}
-			begin->setContent(IntToText(countRounds));
+			int countBots = TextToInt(begin->getContent()) + 1;
+			begin->setContent(IntToText(1));
+			begin->setContent(IntToText(countBots));
 			break;
 		}
 	}
 }
+
+
+
 void Window::reduceCountBots() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountBot) {
-			int countRounds = TextToInt(begin->getContent()) - 1;
-			if (countRounds < 0) {
-				begin->setContent(IntToText(9));
+			int countBots = TextToInt(begin->getContent()) - 1;
+			if (countBots < 1) {
+				begin->setContent(IntToText(1));
 				break;
 			}
-			begin->setContent(IntToText(countRounds));
+			begin->setContent(IntToText(countBots));
+			break;
+		}
+	}
+}
+
+void Window::addCountLifes() {
+	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::CountLife) {
+			int countLife = TextToInt(begin->getContent()) + 1;
+			if (countLife > 3) {
+				begin->setContent(IntToText(1));
+				break;
+			}
+			begin->setContent(IntToText(countLife));
+			break;
+		}
+	}
+}
+
+void Window::reduceCountLifes() {
+	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::CountLife) {
+			int countLife = TextToInt(begin->getContent()) - 1;
+			if (countLife < 1) {
+				begin->setContent(IntToText(3));
+				break;
+			}
+			begin->setContent(IntToText(countLife));
 			break;
 		}
 	}
@@ -199,7 +227,7 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 		setText(std::string("Select Lifes"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 610)),
 		"Select Lifes",
-		GameState::Exit
+		GameState::SelectLife
 	);
 
 	Button BackButton(
@@ -223,19 +251,19 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 
 Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
-	const auto white = sf::Color(100, 100, 100);
-	const auto blue = sf::Color(20, 20, 70);
-	const auto red = sf::Color(70, 20, 20);
+	const auto white = sf::Color::White;
+	const auto blue = sf::Color::Blue;
+	const auto red = sf::Color::Red;
 	const auto black = sf::Color{ 0x00000099 };
 	const int textSize = 75;
 
 	Window window;
 
 	std::vector<sf::Text> contents;
-	sf::Text header = setText("Created by Legend Trio:", 70, &font, yellow);
-	sf::Text firstAdmin = setText("Winsaid", 50, &font, white);
-	sf::Text secondAdmin = setText("Sonador", 50, &font, blue);
-	sf::Text thirdAdmin = setText("Wave78", 50, &font, red);
+	sf::Text header = setText("Created by Legend Trio:", 100, &font, yellow);
+	sf::Text firstAdmin = setText("Winsaid", 80, &font, white);
+	sf::Text secondAdmin = setText("Sonador", 80, &font, blue);
+	sf::Text thirdAdmin = setText("Wave78", 80, &font, red);
 
 
 	Button BackButton(
@@ -246,7 +274,7 @@ Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font, co
 	);
 	std::vector<Button> buttons;
 
-	header.setPosition(630, 20);
+	header.setPosition(520, 20);
 	firstAdmin.setPosition(900, 120);
 	secondAdmin.setPosition(900, 220);
 	thirdAdmin.setPosition(900, 320);
@@ -322,7 +350,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button CountBots(
-		setText(std::string("0"), 75, &font, yellow),
+		setText(std::string("1"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 630)),
 		"Count Bots",
 		GameState::CountBot
@@ -475,6 +503,97 @@ Window switchMode(Window window, sf::Vector2f mousePos) {
 			begin->setOutline(3, sf::Color::Green);
 		}
 	}
+	return window;
+}
+	
+	
+	Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font & font) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color{ 0x00000099 };
+	const int textSize = 75;
+
+	Window window;
+
+	Button ContinuePlayButton(
+		setText(std::string("Continue"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 300)),
+		"Continue",
+		GameState::Continue
+	);
+
+	Button Restart(
+		setText(std::string("Restart game"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 450)),
+		"Restart game",
+		GameState::Restart
+	);
+
+	Button BackButton(
+		setText(std::string("Back"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 600)),
+		"Back To Menu",
+		GameState::Back
+	);
+
+	std::vector<Button> buttons;
+	buttons.push_back(ContinuePlayButton);
+	buttons.push_back(Restart);
+	buttons.push_back(BackButton);
+	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}
+
+Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color{ 0x00000099 };
+	const int textSize = 75;
+	Window window;
+
+	Button SaveButton(
+		setText(std::string("Save"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 600)),
+		"Save",
+		GameState::SaveLife
+	);
+
+	Button Life(
+		setText(std::string("Count of lifes"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 300)),
+		"Count of lifes",
+		GameState::Empty
+	);
+
+	Button ReduceLifes(
+		setText(std::string("<"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(100, 100), black, sf::Vector2f(500, 450)),
+		"Reduce Life",
+		GameState::ReduceLife
+	);
+
+	Button CountLifes(
+		setText(std::string("3"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 450)),
+		"Count Life",
+		GameState::CountLife
+	);
+
+	Button AddingLifes(
+		setText(std::string(">"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(100, 100), black, sf::Vector2f(1300, 450)),
+		"Adding Lifes",
+		GameState::AddLife
+	);
+
+	std::vector<Button> buttons;
+	buttons.push_back(ReduceLifes);
+	buttons.push_back(CountLifes);
+	buttons.push_back(AddingLifes);
+	buttons.push_back(SaveButton);
+	buttons.push_back(Life);
+	window.setButtons(buttons); 
+	window.setBackground(backgroundSprite);
 
 	return window;
 }
@@ -482,13 +601,13 @@ Window switchMode(Window window, sf::Vector2f mousePos) {
 Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
 	const auto black = sf::Color::Black;
-	const auto Cyan = sf::Color::Cyan;
+	const auto Green = sf::Color(23, 69, 31);
 	const int textSize = 75;
 
 	Window window;
 
 	std::vector<sf::Text> contents;
-	sf::Text header = setText("Okey, You Win, but it was so easy...", 70, &font1, Cyan);
+	sf::Text header = setText("Okey, You Win, but it was so easy...", 70, &font1, Green);
 
 	Button restartButton(
 		setText(std::string("restart Game"), 75, &font1, yellow),
@@ -504,7 +623,7 @@ Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const 
 	);
 	std::vector<Button> buttons;
 
-	header.setPosition(370, 20);
+	header.setPosition(310, 150);
 	contents.push_back(header);
 	buttons.push_back(BackButton);
 	buttons.push_back(restartButton);

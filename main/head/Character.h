@@ -26,7 +26,7 @@ public:
 	void setPosition(sf::Vector2f pos);
 	void setDirection(Direction direction);
 	
-
+	void setHP(int health) { _health = health; }
 	float getHP() const;
 	sf::Vector2f getSize() const;
 	sf::Vector2f getPosition() const;
