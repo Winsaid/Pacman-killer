@@ -14,7 +14,6 @@ int main() {
     Level levelTwo(LEVEL_TWO_S, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
 
     Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
-
     Player* player = new Player(textures::playerTexture, map.getPlayerPosition());
     Scale scale = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
@@ -29,7 +28,6 @@ int main() {
     end.setCharacterSize(30);
     end.setFont(font);
     end.setPosition(sf::Vector2f(900.f, 50.f));
-
     sf::Sprite health;
     health.setTexture(textures::playerTexture);
     health.setTextureRect(sf::IntRect(16, 16, 16, 16));
@@ -93,6 +91,7 @@ int main() {
                 gameState = openWindow.doAction(mousePos);
             }
         }
+
 
         switch (gameState) {
         case GameState::Back:
@@ -245,6 +244,7 @@ int main() {
                 window.draw(openWindow);
             break;
         }
+
         window.display();
     }
     delete player;
