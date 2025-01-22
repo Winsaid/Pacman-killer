@@ -16,7 +16,6 @@ int main() {
 
     Level levelTwoBin(LEVEL_TWO);
     Level levelTwo(LEVEL_TWO_S);
-
     std::vector<Level> levelZeroVec;
     std::vector<Level> levelOneVec;
     std::vector<Level> levelTwoVec;
@@ -46,7 +45,6 @@ int main() {
     end.setCharacterSize(30);
     end.setFont(font);
     end.setPosition(sf::Vector2f(600.f, 50.f));
-
     sf::Sprite health;
     health.setTexture(textures::playerTexture);
     health.setTextureRect(sf::IntRect(16, 16, 16, 16));
@@ -109,6 +107,7 @@ int main() {
                 gameState = openWindow.doAction(mousePos);
             }
         }
+
 
         switch (gameState) {
         case GameState::Back:
@@ -245,6 +244,7 @@ int main() {
                 window.draw(openWindow);
             break;
         }
+
         window.display();
     }
     delete player;

@@ -27,6 +27,7 @@ Bot::Bot(BotType color, sf::Texture& texture)
 	}
 
 	_sprite.setScale(2, 2);
+
 	_pos.x = LEVEL_TWO_BOT_START_X;
 	_pos.y = LEVEL_TWO_BOT_START_Y;
 	_health = 1;
@@ -39,11 +40,11 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 
 	if (map.canDefinePacmanPos(botRect)) {
 		auto playerPos = map.getPlayerRect();
+
 		auto botPos = this->getSprite().getGlobalBounds();
 		auto start = map.getIntersectNoZeroBlock(botPos);
 		auto end = map.getIntersectNoZeroBlock(playerPos);
 		auto path = createPathFromStartToEnd(map, start, end);
-
 	}
 
 	Direction lastDirection = _direction;

@@ -31,6 +31,7 @@ public:
 	void setPlayerRect(sf::FloatRect playerRect);
 	sf::FloatRect getPlayerRect() { return _playerRect; }
 
+
 	void addLevel(Level level) { _levels.push_back(level); }
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
