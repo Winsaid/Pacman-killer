@@ -1,4 +1,5 @@
 #include "../head/main.h"
+#include "../head/Constants.h"
 
 int main() {
     GameState gameState = GameState::MainMenu;
@@ -6,9 +7,31 @@ int main() {
 
     sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame;
     
-    Level level(1, 0);
-    
-    Map map(level);
+    int levelNumber = 2;
+
+    std::vector<std::vector<Level>> levels;
+
+    Level levelZeroBin(ZERO_LEVEL);
+    Level levelZero(ZERO_LEVEL_S);
+
+    Level levelTwoBin(LEVEL_TWO);
+    Level levelTwo(LEVEL_TWO_S);
+
+    std::vector<Level> levelZeroVec;
+    std::vector<Level> levelOneVec;
+    std::vector<Level> levelTwoVec;
+
+    levelZeroVec.push_back(levelZeroBin);
+    levelZeroVec.push_back(levelZero);
+
+    levelTwoVec.push_back(levelTwoBin);
+    levelTwoVec.push_back(levelTwo);
+
+    levels.push_back(levelZeroVec);
+    levels.push_back(levelOneVec);
+    levels.push_back(levelTwoVec);
+
+    Map map(levels[2]);
     Player* player = new Player(textures::playerTexture, sf::Vector2f(586, 536));
     Scale scale = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
