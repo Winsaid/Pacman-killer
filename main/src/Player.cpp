@@ -1,6 +1,6 @@
-#include "Player.h"
-#include "PlayerController.h"
-#include "Map.h"
+#include "../head/Player.h"
+#include "../head/PlayerController.h"
+#include "../head/Map.h"
 
 bool Player::getMode() 
 {

@@ -1,7 +1,14 @@
-#include "Bot.h"
+#include "../head/Bot.h"
+//#include "../head/Constants.h"
 
 const int LEVEL_TWO_BOT_START_X = 624;
 const int LEVEL_TWO_BOT_START_Y = 500;
+
+auto createPathFromStartToEnd(Map& map, sf::FloatRect start, sf::FloatRect end)
+{
+	std::vector<sf::FloatRect> path;
+	return path;
+}
 
 Bot::Bot(BotType color, sf::Texture& texture)
 {
@@ -20,8 +27,9 @@ Bot::Bot(BotType color, sf::Texture& texture)
 	}
 
 	_sprite.setScale(2, 2);
-	_pos.x  = LEVEL_TWO_BOT_START_X;
-	_pos.y  = LEVEL_TWO_BOT_START_Y;
+
+	_pos.x = LEVEL_TWO_BOT_START_X;
+	_pos.y = LEVEL_TWO_BOT_START_Y;
 	_health = 1;
 	_size = sf::Vector2f(32, 32);
 }
@@ -32,17 +40,17 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 
 	if (map.canDefinePacmanPos(botRect)) {
 		auto playerPos = map.getPlayerRect();
-		auto botPos    = this->getSprite().getGlobalBounds();
-		auto start     = map.getIntersectNoZeroBlock(botPos);
-		auto end       = map.getIntersectNoZeroBlock(playerPos);
 
-
+		auto botPos = this->getSprite().getGlobalBounds();
+		auto start = map.getIntersectNoZeroBlock(botPos);
+		auto end = map.getIntersectNoZeroBlock(playerPos);
+		auto path = createPathFromStartToEnd(map, start, end);
 	}
 
 	Direction lastDirection = _direction;
-	sf::FloatRect rect      = this->_sprite.getGlobalBounds();
+	sf::FloatRect rect = this->_sprite.getGlobalBounds();
 	timeForMove /= 400;
-	float botSpeed          = 0.06;
+	float botSpeed = 0.06;
 	std::vector<Direction> availableDirections;
 
 	botRect.top -= 0.5;
@@ -92,11 +100,11 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 		break;
 	}
 
-	sf::FloatRect updatedBotRect(updated_pos,this->getSize());
+	sf::FloatRect updatedBotRect(updated_pos, this->getSize());
 	if (!map.isAvailableZone(updatedBotRect)) {
 		sf::FloatRect block = map.getIntersectZeroBlock(updatedBotRect);
 		float intersect;
-		if (_direction == Direction::RIGHT) { 
+		if (_direction == Direction::RIGHT) {
 			updated_pos.x = block.left - 32;
 		}
 		else if (_direction == Direction::LEFT) {

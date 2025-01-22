@@ -1,4 +1,4 @@
-#include "Scale.h"
+#include "../head/Scale.h"
 
 Scale::Scale(int points, sf::RectangleShape outer)
 	: _points(points), _outer(outer), _inner(outer)

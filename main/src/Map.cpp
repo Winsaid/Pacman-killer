@@ -1,9 +1,4 @@
-#include "Map.h";
-
-int MAP_HEIGHT_BIN = 11;
-int MAP_WIDTH_BIN  = 20;
-int MAP_START_X = 328;
-int MAP_START_Y = 152;
+#include "../head/Map.h";
 
 int MAP_LEVEL_TWO_HEIGHT = 22;
 int MAP_LEVEL_TWO_WIDTH = 19;
@@ -45,7 +40,7 @@ Level::Level(std::vector<sf::String> strings)
 void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	sf::Texture texture;
-	texture.loadFromFile("./images/pacman-sheet.png");
+	texture.loadFromFile("../../../../images/pacman-sheet.png");
 
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
@@ -102,7 +97,7 @@ void Level::draw(sf::RenderTarget& target, sf::RenderStates states) const
 				sprite.setTextureRect(sf::IntRect(32, 48, 16, 16));
 			}
 
-			sprite.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2, MAP_START_LEVEL_TWO_Y + indexY * 16 * 2));			
+			sprite.setPosition(sf::Vector2f(MAP_START_LEVEL_TWO_X + counter * 16 * 2, MAP_START_LEVEL_TWO_Y + indexY * 16 * 2));
 			target.draw(sprite);
 		}
 	}
@@ -172,7 +167,7 @@ bool Level::isAvailableZone(sf::FloatRect playerRect)
 
 bool Map::canDefinePacmanPos(sf::FloatRect rect)
 {
-	if (_levels[0].canDefinePacmanPos(rect)) 
+	if (_levels[0].canDefinePacmanPos(rect))
 		return true;
 
 	return false;

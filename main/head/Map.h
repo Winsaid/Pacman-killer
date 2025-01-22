@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+
 class Level : public sf::Drawable {
 public:
 	Level(std::vector<sf::String> strings);
@@ -30,7 +31,8 @@ public:
 	void setPlayerRect(sf::FloatRect playerRect);
 	sf::FloatRect getPlayerRect() { return _playerRect; }
 
-    void addLevel(Level level) { _levels.push_back(level); }
+
+	void addLevel(Level level) { _levels.push_back(level); }
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
 	void deletePoint(int index);

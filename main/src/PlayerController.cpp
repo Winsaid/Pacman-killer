@@ -1,6 +1,6 @@
-#include "PlayerController.h"
-#include "Player.h"
-#include "Map.h"
+#include "../head/PlayerController.h"
+#include "../head/Player.h"
+#include "../head/Map.h"
 
 PlayerController* PlayerController::_controller = nullptr;
 

@@ -4,12 +4,12 @@
 #include <vector>
 
 const float WINDOW_HEIGHT = 1020.0;
-const float WINDOW_WIDTH  = 1280.0;
+const float WINDOW_WIDTH = 1280.0;
 
-const int MAP_HEIGHT_BIN = 20;
-const int MAP_WIDTH_BIN  = 11;
-const int MAP_START_X = 220;
-const int MAP_START_Y = 120;
+int MAP_HEIGHT_BIN = 11;
+int MAP_WIDTH_BIN = 20;
+int MAP_START_X = 328;
+int MAP_START_Y = 152;
 
 std::vector<sf::String> ZERO_LEVEL = {
 	"00000000000000000000",
@@ -39,12 +39,7 @@ std::vector<sf::String> ZERO_LEVEL_S = {
 	"2226262626262626262626262626262626262623"
 };
 
-const int MAP_LEVEL_TWO_WIDTH   = 19;
-const int MAP_LEVEL_TWO_HEIGHT  = 19;
-const int MAP_LEVEL_TWO_START_X = 188;
-const int MAP_LEVEL_TWO_START_Y = 120;
-const int LEVEL_TWO_BOT_START_X = 620;
-const int LEVEL_TWO_BOT_START_Y = 500;
+
 
 std::vector<sf::String> LEVEL_TWO = {
 	"0000000000000000000",
@@ -52,7 +47,7 @@ std::vector<sf::String> LEVEL_TWO = {
 	"0100100010100010010",
 	"0100100010200010010",
 	"0112111111111111110",
-	"0100101000002010010",	
+	"0100101000002010010",
 	"0111101110111011210",
 	"0000100010100010000",
 	"0000102111111010000",
