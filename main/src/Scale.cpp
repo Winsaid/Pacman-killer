@@ -39,7 +39,7 @@ Scale getScale(int pointsCount)
 	sf::RectangleShape outer;
 	outer.setFillColor(sf::Color::Green);
 	outer.setSize(sf::Vector2f(150.f, 30.f));
-	outer.setPosition(sf::Vector2f(800.f, 50.f));
+	outer.setPosition(sf::Vector2f(1000.f, 50.f));
 	outer.setOutlineThickness(8.f);
 	outer.setOutlineColor(sf::Color::Blue);
 	return Scale(pointsCount, outer);

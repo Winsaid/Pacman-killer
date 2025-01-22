@@ -1,8 +1,11 @@
 #include "../head/Bot.h"
-//#include "../head/Constants.h"
 
-const int LEVEL_TWO_BOT_START_X = 624;
-const int LEVEL_TWO_BOT_START_Y = 500;
+const int LEVEL_TWO_BOT_START_X = 686;
+const int LEVEL_TWO_BOT_START_Y = 308;
+
+const int LEVEL_ZERO_BOT_START_X = 886;
+const int LEVEL_ZERO_BOT_START_Y = 308;
+
 
 auto createPathFromStartToEnd(Map& map, sf::FloatRect start, sf::FloatRect end)
 {
@@ -46,7 +49,6 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 		auto end = map.getIntersectNoZeroBlock(playerPos);
 		auto path = createPathFromStartToEnd(map, start, end);
 	}
-
 	Direction lastDirection = _direction;
 	sf::FloatRect rect = this->_sprite.getGlobalBounds();
 	timeForMove /= 400;

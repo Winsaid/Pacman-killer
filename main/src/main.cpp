@@ -6,50 +6,36 @@ int main() {
     textures::setTextures();
 
     sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame;
-    
-    int levelNumber = 2;
 
-    std::vector<std::vector<Level>> levels;
+    Level levelZeroBin(ZERO_LEVEL, sf::Vector2f(MAP_LEVEL_ZERO_HEIGHT, MAP_LEVEL_ZERO_WIDTH), sf::Vector2f(MAP_START_LEVEL_ZERO_X, MAP_START_LEVEL_ZERO_Y));
+    Level levelZero(ZERO_LEVEL_S, sf::Vector2f(MAP_LEVEL_ZERO_HEIGHT, MAP_LEVEL_ZERO_WIDTH), sf::Vector2f(MAP_START_LEVEL_ZERO_X, MAP_START_LEVEL_ZERO_Y));
 
-    Level levelZeroBin(ZERO_LEVEL);
-    Level levelZero(ZERO_LEVEL_S);
+    Level levelTwoBin(LEVEL_TWO, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
+    Level levelTwo(LEVEL_TWO_S, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
 
-    Level levelTwoBin(LEVEL_TWO);
-    Level levelTwo(LEVEL_TWO_S);
-    std::vector<Level> levelZeroVec;
-    std::vector<Level> levelOneVec;
-    std::vector<Level> levelTwoVec;
-
-    levelZeroVec.push_back(levelZeroBin);
-    levelZeroVec.push_back(levelZero);
-
-    levelTwoVec.push_back(levelTwoBin);
-    levelTwoVec.push_back(levelTwo);
-
-    levels.push_back(levelZeroVec);
-    levels.push_back(levelOneVec);
-    levels.push_back(levelTwoVec);
-
-    Map map(levels[2]);
-    Player* player = new Player(textures::playerTexture, sf::Vector2f(586, 536));
+    Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+    Player* player = new Player(textures::playerTexture, map.getPlayerPosition());
     Scale scale = getScale(map.getPoints().size());
     Bot bot(Blue, textures::playerTexture);
-    bot.setPosition(sf::Vector2f(586, 408));
+    bot.setPosition(map.getBotPosition());
 
     sf::Font font;
     if (!font.loadFromFile("../../../../fonts/Joystix.TTF")) {
         throw std::runtime_error("Failed to load font");
     }
-
+    sf::Font font1;
+    if (!font1.loadFromFile("../../../../fonts/graf.ttf")) {
+        throw std::runtime_error("Failed to load font");
+    }
     sf::Text end;
     end.setCharacterSize(30);
     end.setFont(font);
-    end.setPosition(sf::Vector2f(600.f, 50.f));
+    end.setPosition(sf::Vector2f(900.f, 50.f));
     sf::Sprite health;
     health.setTexture(textures::playerTexture);
     health.setTextureRect(sf::IntRect(16, 16, 16, 16));
     health.setScale(2, 2);
-    health.setPosition(sf::Vector2f(400.f, 50.f));
+    health.setPosition(sf::Vector2f(700.f, 50.f));
 
     std::vector<sf::Sprite> healths;
     for (int index = 0; index < player->getHP(); ++index) {
@@ -82,9 +68,11 @@ int main() {
 
     Window mainWindow = createMainWindow(backgroundSpriteForMenu, font);
     Window optionWindow = createOptionWindow(backgroundSpriteForMenu, font);
-    Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font);
+    Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font1, font);
     Window playWindow = createPlayWindow(backgroundSpriteForMenu, font);
+    Window prompt = createPromptWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
+    bool isFirst = true;
 
     while (window.isOpen()) {
         float timeForMove = clockForMove.getElapsedTime().asMicroseconds();
@@ -161,7 +149,35 @@ int main() {
             openWindow = playWindow;
             gameState = GameState::Play;
             break;
+        case GameState::GetColor:
+            window.draw(prompt);
+            openWindow = prompt;
+            break;
+        case GameState::SaveColor:
+            window.draw(optionWindow);
+            openWindow = optionWindow;
+            break;
 
+        case GameState::Unselected:
+            prompt = selectColors(prompt, mousePos);
+            window.draw(prompt);
+            openWindow = prompt;
+            gameState = GameState::GetColor;
+            break;
+        case GameState::Hold:
+            playWindow = switchMode(playWindow, mousePos);
+            window.draw(playWindow);
+            openWindow = playWindow;
+            break;
+        case GameState::Ready:
+            window.draw(playWindow);
+            openWindow = playWindow;
+            break;
+
+        case GameState::Selected:
+            window.draw(prompt);
+            openWindow = prompt;
+            break;
         case GameState::StartGame:
             if (doStartGame) {
                 if (pointCount != actualPointCount) {
@@ -181,6 +197,21 @@ int main() {
                     clockForChBotDir.restart();
             }
             else {
+                if (TextToInt(openWindow.getButtons()[2].getContent()) == 0 && isFirst == true) {
+                    Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+                    isFirst = false;
+                }
+                else if (TextToInt(openWindow.getButtons()[2].getContent()) == 1 && isFirst == true) {
+                    Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+                    isFirst = false;
+                }
+                else if (TextToInt(openWindow.getButtons()[2].getContent()) == 2 && isFirst == true) {
+                    Map map2(levelTwoBin, levelTwo, sf::Vector2f(LEVEL_TWO_BOT_START_X, LEVEL_TWO_BOT_START_Y), sf::Vector2f(LEVEL_TWO_PLAEYR_START_X, LEVEL_TWO_PLAEYR_START_Y));
+                    map = map2;
+                    isFirst = false;
+                }
+                bot.setPosition(map.getBotPosition());
+                player->setPosition(map.getPlayerPosition());
                 if (clockForStartGame.getElapsedTime().asSeconds() > 2)
                     doStartGame = true;
             }
@@ -201,12 +232,12 @@ int main() {
             
             if (bot.catchPlayer(player) && player->getHP() != 0) {
                 if (player->getMode()) {
-                    bot.setPosition(sf::Vector2f(586, 408));
+                    bot.setPosition(map.getBotPosition());
                     bot.setDirection(Direction::LEFT);
                 }
                 else if (player->getHP() > 0) {
                     player->takeDamage(1);
-                    player->setPosition(sf::Vector2f(586, 536));
+                    player->setPosition(sf::Vector2f(map.getPlayerPosition()));
                     player->setDirection(Direction::LEFT);
                     healths.pop_back();
                     doStartGame = false;
@@ -236,6 +267,7 @@ int main() {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 gameState = GameState::MainMenu;
                 openWindow = mainWindow; 
+                isFirst = true;
             }
 
             break;
