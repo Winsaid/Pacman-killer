@@ -1,13 +1,8 @@
 {
   "ExpandedNodes": [
-    "\\main",
-    "\\main\\build\\CMakeFiles\\3.26.4-msvc4",
-    "\\main\\build\\CMakeFiles\\3.26.4-msvc4\\CompilerIdC",
-    "\\main\\build\\CMakeFiles\\3.26.4-msvc4\\CompilerIdCXX",
-    "\\main\\head",
-    "\\main\\out\\build",
-    "\\main\\out\\build\\x64-Debug",
-    "\\main\\src"
+    "",
+    "\\main"
   ],
+  "SelectedNode": "\\main\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
