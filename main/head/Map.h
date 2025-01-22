@@ -34,10 +34,8 @@ public:
 
 	sf::Vector2f getPlayerPosition() { return _playerPosition; }
 	sf::Vector2f getBotPosition() { return _botPosition; }
-
 	void setPlayerRect(sf::FloatRect playerRect);
 	sf::FloatRect getPlayerRect() { return _playerRect; }
-
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool isAvailableZone(sf::FloatRect rect);
 	void deletePoint(int index);
