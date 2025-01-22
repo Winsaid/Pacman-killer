@@ -1,5 +1,4 @@
 #include "../head/Bot.h"
-//#include "../head/Constants.h"
 
 const int LEVEL_TWO_BOT_START_X = 624;
 const int LEVEL_TWO_BOT_START_Y = 500;
@@ -75,7 +74,7 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 	int randNum = rand() % (max);
 	sf::Vector2f updated_pos = this->_pos;
 
-	if (timeForChBotDir > 3)
+	if (timeForChBotDir > 2)
 		_direction = availableDirections[randNum];
 
 	switch (_direction) {
