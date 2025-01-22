@@ -59,4 +59,4 @@ Window createMainWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font);
-Window createGameWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font);

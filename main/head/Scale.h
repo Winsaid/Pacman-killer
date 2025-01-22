@@ -12,7 +12,7 @@ public:
 
 private:
 	int _points;
-	int _collectedPoints = 0;
+	int _collectedPoints = -1;
 	sf::RectangleShape _outer;
 	sf::RectangleShape _inner;
 

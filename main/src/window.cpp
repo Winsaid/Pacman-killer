@@ -69,8 +69,8 @@ void Window::addCountRounds() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountRound) {
 			int countRounds = TextToInt(begin->getContent()) + 1;
-			if (countRounds > 3) {
-				begin->setContent(IntToText(1));
+			if (countRounds > 2) {
+				begin->setContent(IntToText(0));
 				break;
 			}
 			begin->setContent(IntToText(countRounds));
@@ -84,7 +84,7 @@ void Window::reduceCountRounds() {
 		if (begin->getGameState() == GameState::CountRound) {
 			int countRounds = TextToInt(begin->getContent()) - 1;
 			if (countRounds < 0) {
-				begin->setContent(IntToText(9));
+				begin->setContent(IntToText(2));
 				break;
 			}
 			begin->setContent(IntToText(countRounds));
@@ -96,12 +96,9 @@ void Window::reduceCountRounds() {
 void Window::addCountBots() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountBot) {
-			int countRounds = TextToInt(begin->getContent()) + 1;
-			if (countRounds > 4) {
-				begin->setContent(IntToText(0));
-				break;
-			}
-			begin->setContent(IntToText(countRounds));
+			int countBots = TextToInt(begin->getContent()) + 1;
+			begin->setContent(IntToText(1));
+			begin->setContent(IntToText(countBots));
 			break;
 		}
 	}
@@ -109,12 +106,12 @@ void Window::addCountBots() {
 void Window::reduceCountBots() {
 	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
 		if (begin->getGameState() == GameState::CountBot) {
-			int countRounds = TextToInt(begin->getContent()) - 1;
-			if (countRounds < 0) {
-				begin->setContent(IntToText(9));
+			int countBots = TextToInt(begin->getContent()) - 1;
+			if (countBots < 1) {
+				begin->setContent(IntToText(1));
 				break;
 			}
-			begin->setContent(IntToText(countRounds));
+			begin->setContent(IntToText(countBots));
 			break;
 		}
 	}
@@ -318,7 +315,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button CountBots(
-		setText(std::string("0"), 75, &font, yellow),
+		setText(std::string("1"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 630)),
 		"Count Bots",
 		GameState::CountBot
@@ -350,6 +347,44 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	buttons.push_back(Rounds);
 	buttons.push_back(Bots);
 
+	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}
+
+Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color{ 0x00000099 };
+	const int textSize = 75;
+
+	Window window;
+
+	Button ContinuePlayButton(
+		setText(std::string("Continue"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 300)),
+		"Continue",
+		GameState::Continue
+	);
+
+	Button Restart(
+		setText(std::string("Restart game"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 450)),
+		"Restart game",
+		GameState::Restart
+	);
+
+	Button BackButton(
+		setText(std::string("Back"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 600)),
+		"Back To Menu",
+		GameState::Back
+	);
+
+	std::vector<Button> buttons;
+	buttons.push_back(ContinuePlayButton);
+	buttons.push_back(Restart);
+	buttons.push_back(BackButton);
 	window.setButtons(buttons);
 	window.setBackground(backgroundSprite);
 

@@ -48,6 +48,7 @@ private:
 	Level _binMap;
 	std::vector<sf::CircleShape> _points;
 	int _startPointCount;
+	int _tempPointCount;
 	sf::FloatRect _playerRect;
 	sf::Vector2f _botPosition;
 	sf::Vector2f _playerPosition;
