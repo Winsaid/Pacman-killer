@@ -17,7 +17,7 @@ class Bot : public Character {
 public:
 	Bot(BotType color, sf::Texture &texture);
 
-	void Update(Map map, float timeForMove, float timeForChBotDir);
+	void Update(Map &map, float timeForMove, float timeForChBotDir);
 	bool catchPlayer(Player* player);
 
 private:

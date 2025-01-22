@@ -1,5 +1,5 @@
 #include "../head/Map.h";
-
+#include <iostream>
 void Map::deletePoint(int index) {
 	auto iter = _points.begin();
 	_points.erase(iter + index);

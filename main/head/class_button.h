@@ -43,7 +43,9 @@ public:
 	void setGameState(GameState state) {
 		_state = state;
 	}
-
+	void setOutline(int pixels, sf::Color color) { _button.setOutlineThickness(pixels); _button.setOutlineColor(color); }
+	void setString(std::string string) { this->_textString = string; };
+	std::string getString() { return this->_textString; };
 private:
 	std::string _textString;
 	sf::Text _content;

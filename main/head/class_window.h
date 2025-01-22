@@ -59,7 +59,13 @@ private:
 
 Window createMainWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font);
-Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1);
 Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createGameWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createPromptWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window selectColors(Window window, sf::Vector2f mousePos);
+Window switchMode(Window window, sf::Vector2f mousePos);
+Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1);
+Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1);
 Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font);

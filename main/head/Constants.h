@@ -12,6 +12,9 @@ const int LEVEL_ONE_BOT_START_Y = 312;
 const int LEVEL_TWO_BOT_START_X = 886;
 const int LEVEL_TWO_BOT_START_Y = 408;
 
+
+
+
 const int LEVEL_ZERO_PLAEYR_START_X = 886;
 const int LEVEL_ZERO_PLAEYR_START_Y = 440;
 
@@ -20,6 +23,7 @@ const int LEVEL_ONE_PLAEYR_START_Y = 472;
 
 const int LEVEL_TWO_PLAEYR_START_X = 886;
 const int LEVEL_TWO_PLAEYR_START_Y = 536;
+
 
 const float WINDOW_HEIGHT = 1020.0;
 const float WINDOW_WIDTH = 1280.0;
@@ -152,4 +156,3 @@ std::vector<sf::String> LEVEL_TWO_S = {
 	"250*0*0*0*0*0*0*0*0*0*0*0*0*0*0*0*0*24",
 	"22262626262626262626262626262626262623"
 };
-

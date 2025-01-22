@@ -37,7 +37,7 @@ Bot::Bot(BotType color, sf::Texture& texture)
 	_size = sf::Vector2f(32, 32);
 }
 
-void Bot::Update(Map map, float timeForMove, float timeForChBotDir)
+void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 {
 	sf::FloatRect botRect = this->getSprite().getGlobalBounds();
 
