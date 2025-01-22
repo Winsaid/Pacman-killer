@@ -32,3 +32,7 @@
 *.app
 
 main/SFML-2.6.2/
+main/.vs/
+main/build/
+main/out/
+.vs/
