@@ -48,9 +48,7 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 		auto start = map.getIntersectNoZeroBlock(botPos);
 		auto end = map.getIntersectNoZeroBlock(playerPos);
 		auto path = createPathFromStartToEnd(map, start, end);
-
 	}
-
 	Direction lastDirection = _direction;
 	sf::FloatRect rect = this->_sprite.getGlobalBounds();
 	timeForMove /= 400;
