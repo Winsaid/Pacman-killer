@@ -21,7 +21,7 @@ int main() {
     GameState gameState = GameState::MainMenu;
     textures::setTextures();
 
-    sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame;
+    sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame, cloclForBomb;
     sf::Clock clockForAddBot;
     std::vector<sf::Clock> clockForBots;
     std::vector<sf::Clock> clockForStartBots;
@@ -30,6 +30,9 @@ int main() {
 
     Level levelZeroBin(ZERO_LEVEL, sf::Vector2f(MAP_LEVEL_ZERO_HEIGHT, MAP_LEVEL_ZERO_WIDTH), sf::Vector2f(MAP_START_LEVEL_ZERO_X, MAP_START_LEVEL_ZERO_Y));
     Level levelZero(ZERO_LEVEL_S, sf::Vector2f(MAP_LEVEL_ZERO_HEIGHT, MAP_LEVEL_ZERO_WIDTH), sf::Vector2f(MAP_START_LEVEL_ZERO_X, MAP_START_LEVEL_ZERO_Y));
+
+	Level levelOneBin(LEVEL_ONE, sf::Vector2f(MAP_LEVEL_ONE_HEIGHT, MAP_LEVEL_ONE_WIDTH), sf::Vector2f(MAP_START_LEVEL_ONE_X, MAP_START_LEVEL_ONE_Y));
+    Level levelOne(LEVEL_ONE_S, sf::Vector2f(MAP_LEVEL_ONE_HEIGHT, MAP_LEVEL_ONE_WIDTH), sf::Vector2f(MAP_START_LEVEL_ONE_X, MAP_START_LEVEL_ONE_Y));
 
     Level levelTwoBin(LEVEL_TWO, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
     Level levelTwo(LEVEL_TWO_S, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
@@ -44,7 +47,10 @@ int main() {
     if (!font.loadFromFile("../../../../fonts/Joystix.TTF")) {
         throw std::runtime_error("Failed to load font");
     }
-
+    sf::Font font1;
+    if (!font1.loadFromFile("../../../../fonts/graf.ttf")) {
+        throw std::runtime_error("Failed to load font");
+    }
     sf::Text end;
     end.setCharacterSize(30);
     end.setFont(font);
@@ -81,6 +87,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pacman");
 
     std::string pathToBackgroundImageForMenu = "../../../../images/background.png";
+    std::string pathToBackgroundImageForWin = "../../../../images/win.jpg";
+    std::string pathToBackgroundImageForLose = "../../../../images/lose.jpg";
     std::string pathToBackgroundImageForAuthors = "../../../../images/authors.png";
 
     sf::Texture backgroundTextureForMenu;
@@ -96,19 +104,38 @@ int main() {
     }
     sf::Sprite backgroundSpriteForAuthors;
     backgroundSpriteForAuthors.setTexture(backgroundTextureForAuthors);
+    sf::Texture backgroundTextureForWin;
+    if (!backgroundTextureForWin.loadFromFile(pathToBackgroundImageForWin)) {
+        throw std::runtime_error("Failed to load background texture");
+    }
+    sf::Sprite backgroundSpriteForWin;
+    backgroundSpriteForWin.setTexture(backgroundTextureForWin);
+
+    sf::Texture backgroundTextureForLose;
+
+    if (!backgroundTextureForLose.loadFromFile(pathToBackgroundImageForLose)) {
+        throw std::runtime_error("Failed to load background texture");
+    }
+    sf::Sprite backgroundSpriteForLose;
+    backgroundSpriteForLose.setTexture(backgroundTextureForLose);
 
     Window mainWindow = createMainWindow(backgroundSpriteForMenu, font);
     Window optionWindow = createOptionWindow(backgroundSpriteForMenu, font);
-    Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font);
+    Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font1, font);
     Window playWindow = createPlayWindow(backgroundSpriteForMenu, font);
+    Window WinWindow = createWinWindow(backgroundSpriteForWin, font1, font);
+    Window LoseWindow = createLoseWindow(backgroundSpriteForLose, font1, font);
+    Window prompt = createPromptWindow(backgroundSpriteForMenu, font);
+    Window pauseWindow = createPauseWindow(backgroundSpriteForMenu, font);
+    Window SelectLife = createOptionLifeWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
     bool isFirst = true;
     bool haveTwoPlayer;
-
+  
     while (window.isOpen()) {
         float timeForMove = clockForMove.getElapsedTime().asMicroseconds();
         float timeForPlrSprt = clockForPlrSprt.getElapsedTime().asSeconds();
-        std::vector<float> timesForChBotDir;
+   std::vector<float> timesForChBotDir;
 
         if (timesForChBotDir.size() == 0)
             for (int i = 0; i < bots.size(); ++i)
@@ -127,6 +154,7 @@ int main() {
 
         actualPointCount = map.getPoints().size();
         clockForMove.restart();
+
 
         sf::Event event;
         sf::Vector2f mousePos = static_cast<sf::Vector2f>(sf::Mouse::getPosition(window));
@@ -148,6 +176,30 @@ int main() {
             openWindow = mainWindow;
             break;
 
+    case GameState::ReduceLife:
+            window.draw(SelectLife);
+            SelectLife.reduceCountLifes();
+            openWindow = SelectLife;
+            gameState = GameState::SelectLife;
+            break;
+
+        case GameState::AddLife:
+            window.draw(SelectLife);
+            SelectLife.addCountLifes();
+            openWindow = SelectLife;
+            gameState = GameState::SelectLife;
+            break;
+
+        case GameState::SelectLife:
+            window.draw(SelectLife);
+            openWindow = SelectLife;
+            break;
+
+        case GameState::SaveLife:
+            window.draw(optionWindow);
+            openWindow = optionWindow;
+            break;
+
         case GameState::OptionsMenu:
             window.draw(optionWindow);
             openWindow = optionWindow;
@@ -165,6 +217,26 @@ int main() {
         case GameState::Play:
             window.draw(playWindow);
             openWindow = playWindow;
+            isFirst = true;
+            doStartGame = false;
+            clockForBots.clear();
+            bots.clear();
+            healths.clear();
+            clockForStartBots.clear();
+            health.setPosition(sf::Vector2f(700.f, 50.f));
+            break;
+
+        case GameState::Restart:
+            openWindow = playWindow;
+            gameState = GameState::StartGame;
+            bots.clear();
+            clockForBots.clear();
+            healths.clear();
+            clockForStartBots.clear();
+            isFirst = true;
+            doStartGame = false;
+            health.setPosition(sf::Vector2f(700.f, 50.f));
+            health.setPosition(sf::Vector2f(700.f, 50.f));
             break;
 
         case GameState::AddRound:
@@ -194,7 +266,43 @@ int main() {
             openWindow = playWindow;
             gameState = GameState::Play;
             break;
+        case GameState::GetColor:
+            window.draw(prompt);
+            openWindow = prompt;
+            break;
+        case GameState::SaveColor:
+            window.draw(optionWindow);
+            openWindow = optionWindow;
+            break;
 
+        case GameState::Unselected:
+            prompt = selectColors(prompt, mousePos);
+            window.draw(prompt);
+            openWindow = prompt;
+            gameState = GameState::GetColor;
+            break;
+        case GameState::Hold:
+            playWindow = switchMode(playWindow, mousePos);
+            window.draw(playWindow);
+            openWindow = playWindow;
+            break;
+        case GameState::Ready:
+            window.draw(playWindow);
+            openWindow = playWindow;
+            break;
+        case GameState::Win:
+            window.draw(WinWindow);
+            openWindow = WinWindow;
+            break;
+        case GameState::Lose:
+            window.draw(LoseWindow);
+            openWindow = LoseWindow;
+            break;
+
+        case GameState::Selected:
+            window.draw(prompt);
+            openWindow = prompt;
+            break;
         case GameState::StartGame:
             haveTwoPlayer = true;
             botsCount = TextToInt(openWindow.getButtons()[6].getContent());            
@@ -304,14 +412,12 @@ int main() {
                 for (int i = 0; i < currentBots; ++i)
                     window.draw(bots[i].getSprite());
 
-
                 if (firstPlayer->getHP() != 0) {
                     for (const sf::Sprite& currentHealth : healths) {
                         window.draw(currentHealth);
                     }
                 }
-
-
+              
                 if (firstPlayer->getHP() == 0) {
                     end.setString("You lose!");
                     end.setFillColor(sf::Color::Red);
@@ -468,17 +574,15 @@ int main() {
                 }
 
                 if (firstPlayer->getHP() == 0 && secondPlayer->getHP() == 0) {
-                    end.setString("You lose!");
-                    end.setFillColor(sf::Color::Red);
-                    window.draw(end);
+                    gameState = GameState::Lose;
+                    window.clear();
                 }
             }
             
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-                gameState = GameState::MainMenu;
-                openWindow = mainWindow; 
-                isFirst = true;
-            }
+                gameState = GameState::Pause;
+                openWindow = pauseWindow; 
+				}
 
             if (clockForAddBot.getElapsedTime().asSeconds() > 5 && currentBots != bots.size()) {
                 ++currentBots;
@@ -491,7 +595,17 @@ int main() {
         case GameState::MainMenu:
                 window.draw(openWindow);
             break;
+            
+        case GameState::Pause:
+            window.draw(pauseWindow);
+            break;
+
+        case GameState::Continue:
+            openWindow = playWindow;
+            gameState = GameState::StartGame;
+            break;
         }
+
 
         window.display();
     }
