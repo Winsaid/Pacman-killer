@@ -478,3 +478,75 @@ Window switchMode(Window window, sf::Vector2f mousePos) {
 
 	return window;
 }
+
+Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color::Black;
+	const auto Cyan = sf::Color::Cyan;
+	const int textSize = 75;
+
+	Window window;
+
+	std::vector<sf::Text> contents;
+	sf::Text header = setText("Okey, You Win, but it was so easy...", 70, &font1, Cyan);
+
+	Button restartButton(
+		setText(std::string("restart Game"), 75, &font1, yellow),
+		setRectangle(sf::Vector2f(750, 100), black, sf::Vector2f(580, 420)),
+		"Back To Menu",
+		GameState::Restart
+	);
+	Button BackButton(
+		setText(std::string("Back"), 75, &font1, yellow),
+		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(820, 540)),
+		"Back To Menu",
+		GameState::Back
+	);
+	std::vector<Button> buttons;
+
+	header.setPosition(370, 20);
+	contents.push_back(header);
+	buttons.push_back(BackButton);
+	buttons.push_back(restartButton);
+	window.setContents(contents);
+	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}
+
+Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color::Black;
+	const auto red = sf::Color::Red;
+	const int textSize = 75;
+
+	Window window;
+
+	std::vector<sf::Text> contents;
+	sf::Text header = setText("LOL, You Died, LOOOOOSER!!!", 70, &font1, red);
+	Button restartButton(
+		setText(std::string("restart Game"), 75, &font1, yellow),
+		setRectangle(sf::Vector2f(750, 100), black, sf::Vector2f(580, 420)),
+		"Back To Menu",
+		GameState::Restart
+	);
+
+	Button BackButton(
+		setText(std::string("Back"), 75, &font1, yellow),
+		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(820, 540)),
+		"Back To Menu",
+		GameState::Back
+	);
+	std::vector<Button> buttons;
+
+	header.setPosition(370, 100);
+	contents.push_back(header);
+	buttons.push_back(BackButton);
+	buttons.push_back(restartButton);
+	window.setContents(contents);
+	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}

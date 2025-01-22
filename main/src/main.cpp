@@ -50,6 +50,8 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pacman");
 
     std::string pathToBackgroundImageForMenu = "../../../../images/background.png";
+    std::string pathToBackgroundImageForWin = "../../../../images/win.jpg";
+    std::string pathToBackgroundImageForLose = "../../../../images/lose.jpg";
     std::string pathToBackgroundImageForAuthors = "../../../../images/authors.png";
 
     sf::Texture backgroundTextureForMenu;
@@ -65,11 +67,27 @@ int main() {
     }
     sf::Sprite backgroundSpriteForAuthors;
     backgroundSpriteForAuthors.setTexture(backgroundTextureForAuthors);
+    sf::Texture backgroundTextureForWin;
+    if (!backgroundTextureForWin.loadFromFile(pathToBackgroundImageForWin)) {
+        throw std::runtime_error("Failed to load background texture");
+    }
+    sf::Sprite backgroundSpriteForWin;
+    backgroundSpriteForWin.setTexture(backgroundTextureForWin);
+
+    sf::Texture backgroundTextureForLose;
+
+    if (!backgroundTextureForLose.loadFromFile(pathToBackgroundImageForLose)) {
+        throw std::runtime_error("Failed to load background texture");
+    }
+    sf::Sprite backgroundSpriteForLose;
+    backgroundSpriteForLose.setTexture(backgroundTextureForLose);
 
     Window mainWindow = createMainWindow(backgroundSpriteForMenu, font);
     Window optionWindow = createOptionWindow(backgroundSpriteForMenu, font);
     Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font1, font);
     Window playWindow = createPlayWindow(backgroundSpriteForMenu, font);
+    Window WinWindow = createWinWindow(backgroundSpriteForWin, font1, font);
+    Window LoseWindow = createLoseWindow(backgroundSpriteForLose, font1, font);
     Window prompt = createPromptWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
     bool isFirst = true;
@@ -173,6 +191,14 @@ int main() {
             window.draw(playWindow);
             openWindow = playWindow;
             break;
+        case GameState::Win:
+            window.draw(WinWindow);
+            openWindow = WinWindow;
+            break;
+        case GameState::Lose:
+            window.draw(LoseWindow);
+            openWindow = LoseWindow;
+            break;
 
         case GameState::Selected:
             window.draw(prompt);
@@ -224,9 +250,9 @@ int main() {
             window.draw(scale);
 
             if (scale.isAllPointCollected()) {
-                end.setString("You win!");
-                end.setFillColor(sf::Color::Cyan);
-                window.draw(end);
+                gameState = GameState::Win;
+                window.clear();
+                
             }
 
             
@@ -258,9 +284,8 @@ int main() {
 
             
             if (player->getHP() == 0) {
-                end.setString("You lose!");
-                end.setFillColor(sf::Color::Red);
-                window.draw(end);
+                gameState = GameState::Lose;
+                window.clear();
             }
 
             
