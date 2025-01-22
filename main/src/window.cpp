@@ -289,7 +289,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 
 	Button CountRound(
-		setText(std::string("1"), 75, &font, yellow),
+		setText(std::string("0"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 390)),
 		"Count Round",
 		GameState::CountRound

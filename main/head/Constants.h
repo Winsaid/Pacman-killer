@@ -3,13 +3,30 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+const int LEVEL_TWO_BOT_START_X = 886;
+const int LEVEL_TWO_BOT_START_Y = 408;
+
+const int LEVEL_ZERO_BOT_START_X = 886;
+const int LEVEL_ZERO_BOT_START_Y = 308;
+
+const int LEVEL_ZERO_PLAEYR_START_X = 886;
+const int LEVEL_ZERO_PLAEYR_START_Y = 440;
+
+const int LEVEL_TWO_PLAEYR_START_X = 886;
+const int LEVEL_TWO_PLAEYR_START_Y = 536;
+
 const float WINDOW_HEIGHT = 1020.0;
 const float WINDOW_WIDTH = 1280.0;
 
-int MAP_HEIGHT_BIN = 11;
-int MAP_WIDTH_BIN = 20;
-int MAP_START_X = 328;
-int MAP_START_Y = 152;
+const int MAP_LEVEL_ZERO_HEIGHT = 11;
+const int MAP_LEVEL_ZERO_WIDTH = 20;
+const int MAP_START_LEVEL_ZERO_X = 598;
+const int MAP_START_LEVEL_ZERO_Y = 152;
+
+int MAP_LEVEL_TWO_HEIGHT = 22;
+int MAP_LEVEL_TWO_WIDTH = 19;
+int MAP_START_LEVEL_TWO_X = 598;
+int MAP_START_LEVEL_TWO_Y = 152;
 
 std::vector<sf::String> ZERO_LEVEL = {
 	"00000000000000000000",
@@ -22,7 +39,7 @@ std::vector<sf::String> ZERO_LEVEL = {
 	"01011111111111111010",
 	"01001010000001010010",
 	"01111011111111011110",
-	"00000000000000000000"
+	"00000000000000000000",
 };
 
 std::vector<sf::String> ZERO_LEVEL_S = {
