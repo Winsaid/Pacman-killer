@@ -5,7 +5,7 @@ void Map::deletePoint(int index) {
 	_points.erase(iter + index);
 }
 
-Map::Map(Level binMap, Level map, sf::Vector2f botPosition, sf::Vector2f playerPosition) : _binMap(binMap), _map(map), _botPosition(botPosition), _playerPosition(playerPosition)
+Map::Map(Level binMap, Level map, sf::Vector2f botPosition, sf::Vector2f playerPosition, sf::Vector2f secondPlayerPosition) : _binMap(binMap), _map(map), _botPosition(botPosition), _playerPosition(playerPosition), _secondPlayerPosition(secondPlayerPosition)
 {
 	sf::String tempStr;
 	sf::CircleShape point;
@@ -185,5 +185,10 @@ bool Level::canDefinePacmanPos(sf::FloatRect playerRect)
 
 void Map::setPlayerRect(sf::FloatRect playerRect)
 {
-	this->_playerRect = playerRect;
+	this->_firstPlayerRect = playerRect;
+}
+
+void Map::setSecondPlayerRect(sf::FloatRect playerRect)
+{
+	this->_secondPlayerRect = playerRect;
 }

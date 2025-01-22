@@ -12,8 +12,7 @@ enum State {
 class Player : public Character {
 public:
 	Player() = delete;
-	Player(sf::Texture& texture, sf::Vector2f start_pos);
-	~Player();
+	Player(sf::Texture& texture, sf::Vector2f start_pos, int playerNumber);
 
 	void Update(Map &map, float time, float timeForMove);
 	void setState(State state) { _state = state; }
@@ -23,8 +22,10 @@ public:
 	PlayerController* getController() { return _controller; }
 	bool getMode();
 	float getTime();
+	int getPlayerNumber() { return _playerNumber; }
 
 private:
+	int _playerNumber;
 	sf::Clock         _timerForMad;
 	State             _state = State::IDLE;
 	PlayerController* _controller;
