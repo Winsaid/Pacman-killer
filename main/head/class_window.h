@@ -47,6 +47,8 @@ public:
 	void reduceCountRounds();
 	void addCountBots();
 	void reduceCountBots();
+	void addCountLifes();
+	void reduceCountLifes();
 
 private:
 	std::vector<sf::Text> _contents;
@@ -60,3 +62,4 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font);

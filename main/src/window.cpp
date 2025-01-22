@@ -117,6 +117,34 @@ void Window::reduceCountBots() {
 	}
 }
 
+void Window::addCountLifes() {
+	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::CountLife) {
+			int countLife = TextToInt(begin->getContent()) + 1;
+			if (countLife > 3) {
+				begin->setContent(IntToText(1));
+				break;
+			}
+			begin->setContent(IntToText(countLife));
+			break;
+		}
+	}
+}
+
+void Window::reduceCountLifes() {
+	for (auto begin = this->getBeginButton(), end = this->getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::CountLife) {
+			int countLife = TextToInt(begin->getContent()) - 1;
+			if (countLife < 1) {
+				begin->setContent(IntToText(3));
+				break;
+			}
+			begin->setContent(IntToText(countLife));
+			break;
+		}
+	}
+}
+
 Window createMainWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
 	const auto black = sf::Color{ 0x00000099 };
@@ -196,7 +224,7 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 		setText(std::string("Select Lifes"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 610)),
 		"Select Lifes",
-		GameState::Exit
+		GameState::SelectLife
 	);
 
 	Button BackButton(
@@ -386,6 +414,59 @@ Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	buttons.push_back(Restart);
 	buttons.push_back(BackButton);
 	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}
+
+Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color{ 0x00000099 };
+	const int textSize = 75;
+	Window window;
+
+	Button SaveButton(
+		setText(std::string("Save"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 600)),
+		"Save",
+		GameState::SaveLife
+	);
+
+	Button Life(
+		setText(std::string("Count of lifes"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 300)),
+		"Count of lifes",
+		GameState::Empty
+	);
+
+	Button ReduceLifes(
+		setText(std::string("<"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(100, 100), black, sf::Vector2f(500, 450)),
+		"Reduce Life",
+		GameState::ReduceLife
+	);
+
+	Button CountLifes(
+		setText(std::string("3"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(650, 100), black, sf::Vector2f(625, 450)),
+		"Count Life",
+		GameState::CountLife
+	);
+
+	Button AddingLifes(
+		setText(std::string(">"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(100, 100), black, sf::Vector2f(1300, 450)),
+		"Adding Lifes",
+		GameState::AddLife
+	);
+
+	std::vector<Button> buttons;
+	buttons.push_back(ReduceLifes);
+	buttons.push_back(CountLifes);
+	buttons.push_back(AddingLifes);
+	buttons.push_back(SaveButton);
+	buttons.push_back(Life);
+	window.setButtons(buttons); 
 	window.setBackground(backgroundSprite);
 
 	return window;

@@ -58,10 +58,6 @@ int main() {
     health.setPosition(sf::Vector2f(700.f, 50.f));
 
     std::vector<sf::Sprite> healths;
-    for (int index = 0; index < player->getHP(); ++index) {
-        healths.push_back(health);
-        health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
-    }
 
     int actualPointCount;
     int pointCount = map.getPoints().size();
@@ -91,6 +87,7 @@ int main() {
     Window authorWindow = createAuthorsWindow(backgroundSpriteForAuthors, font);
     Window playWindow = createPlayWindow(backgroundSpriteForMenu, font);
     Window pauseWindow = createPauseWindow(backgroundSpriteForMenu, font);
+    Window SelectLife = createOptionLifeWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
     bool isFirst = true;
     bool a = false;
@@ -136,6 +133,30 @@ int main() {
         case GameState::Back:
             window.draw(mainWindow);
             openWindow = mainWindow;
+            break;
+
+        case GameState::ReduceLife:
+            window.draw(SelectLife);
+            SelectLife.reduceCountLifes();
+            openWindow = SelectLife;
+            gameState = GameState::SelectLife;
+            break;
+
+        case GameState::AddLife:
+            window.draw(SelectLife);
+            SelectLife.addCountLifes();
+            openWindow = SelectLife;
+            gameState = GameState::SelectLife;
+            break;
+
+        case GameState::SelectLife:
+            window.draw(SelectLife);
+            openWindow = SelectLife;
+            break;
+
+        case GameState::SaveLife:
+            window.draw(optionWindow);
+            openWindow = optionWindow;
             break;
 
         case GameState::OptionsMenu:
@@ -187,14 +208,14 @@ int main() {
             break;
 
         case GameState::AddBot:
-            playWindow.addCountBots();
+            playWindow.addCountLifes();
             window.draw(playWindow);
             openWindow = playWindow;
             gameState = GameState::Play;
             break;
 
         case GameState::ReduceBot:
-            playWindow.reduceCountBots();
+            playWindow.reduceCountLifes();
             window.draw(playWindow);
             openWindow = playWindow;
             gameState = GameState::Play;
@@ -203,18 +224,26 @@ int main() {
         case GameState::StartGame:
             botsCount = TextToInt(openWindow.getButtons()[6].getContent());
             if (isFirst == true) {
+                player->setHP(TextToInt(SelectLife.getButtons()[1].getContent()));
                 currentBots = 1;
-                cloclForBomb.restart();
+
+                for (int index = 0; index < player->getHP(); ++index) {
+                    healths.push_back(health);
+                    health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
+                }
+
                 if (TextToInt(openWindow.getButtons()[2].getContent()) == 0) {
                     Map map0(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
                     map = map0;
                     isFirst = false;
                 }
+
                 else if (TextToInt(openWindow.getButtons()[2].getContent()) == 1) {
                     Map map1(levelOneBin, levelOne, sf::Vector2f(LEVEL_ONE_BOT_START_X, LEVEL_ONE_BOT_START_Y), sf::Vector2f(LEVEL_ONE_PLAEYR_START_X, LEVEL_ONE_PLAEYR_START_Y));
                     map = map1;
                     isFirst = false;
                 }
+
                 else if (TextToInt(openWindow.getButtons()[2].getContent()) == 2) {
                     Map map2(levelTwoBin, levelTwo, sf::Vector2f(LEVEL_TWO_BOT_START_X, LEVEL_TWO_BOT_START_Y), sf::Vector2f(LEVEL_TWO_PLAEYR_START_X, LEVEL_TWO_PLAEYR_START_Y));
                     map = map2;
