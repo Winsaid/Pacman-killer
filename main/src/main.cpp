@@ -78,6 +78,9 @@ int main() {
     int countBotSkinChanges = 0;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pacman");
+    sf::Image icon;
+    icon.loadFromFile("../../../../images/icon.png");
+    window.setIcon(48, 48, icon.getPixelsPtr());
 
     std::string pathToBackgroundImageForMenu = "../../../../images/background.png";
     std::string pathToBackgroundImageForWin = "../../../../images/win.jpg";
