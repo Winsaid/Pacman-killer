@@ -5,7 +5,6 @@ void Map::deletePoint(int index) {
 	_points.erase(iter + index);
 }
 
-<<<<<<< HEAD
 void Map::deleteBomb(int index) {
 	auto iter = _bombs.begin();
 	_bombs.erase(iter + index);
@@ -16,8 +15,6 @@ void Map::deleteAcseleration (int index) {
 	_acseleration.erase(iter + index);
 }
 
-=======
->>>>>>> 446753267755d968b0b6593bd2df7d9a885d88c3
 Map::Map(Level binMap, Level map, sf::Vector2f botPosition, sf::Vector2f playerPosition, sf::Vector2f secondPlayerPosition) : _binMap(binMap), _map(map), _botPosition(botPosition), _playerPosition(playerPosition), _secondPlayerPosition(secondPlayerPosition)
 {
 	sf::String tempStr;

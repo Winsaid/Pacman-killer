@@ -68,14 +68,6 @@ int main() {
 
     std::vector<sf::Sprite> secondHealths;
 
-    sf::Sprite secondHealth;
-    secondHealth.setTexture(textures::playerTexture);
-    secondHealth.setTextureRect(sf::IntRect(144, 96, 16, 16));
-    secondHealth.setScale(2, 2);
-    secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
-
-    std::vector<sf::Sprite> secondHealths;
-
     int actualPointCount = 0;
     int pointCount = map.getPoints().size();
     bool doStartGame = false;
@@ -387,6 +379,10 @@ int main() {
                     actualAcseleratation = 0;
                     actualBombCount = 0;
 
+                    clockForTiwceSpeed.restart();
+                    clockForBomb.restart();
+                    clockForAcseleration.restart();
+
                     scale = getScale(map.getPoints().size());
                     firstPlayer->setPosition(map.getPlayerPosition());
                     clockForBomb.restart();
@@ -587,6 +583,10 @@ int main() {
                         secondHealth.setPosition(sf::Vector2f(secondHealth.getPosition().x + 48, secondHealth.getPosition().y));
                     }
 
+                    clockForTiwceSpeed.restart();
+                    clockForBomb.restart();
+                    clockForAcseleration.restart();
+
                     actualBombCount = 0;
                     actualAcseleratation = 0;
                     pointCount = map.getPoints().size();
@@ -673,11 +673,42 @@ int main() {
                     }
                 }
 
-                if (firstPlayer->getMode() && firstPlayer->getTime() > 15)
+                if (firstPlayer->getMode() && firstPlayer->getTime() > 10) {
                     firstPlayer->unsetMadMode();
+                    for (int i = 0; i < bots.size(); ++i)
+                        bots[i].unsetMadMode();
+                }
+                else if (firstPlayer->getMode() && firstPlayer->getTime() < 10) {
+                    for (int i = 0; i < currentBots; ++i) {
+                        if (bots[i].getMadMode() == false) {
+                            bots[i].setMadMode();
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                        }
 
-                if (secondPlayer->getMode() && secondPlayer->getTime() > 15)
+                        if (bots[i].getSecondsForMadMode() > 0.2) {
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                            bots[i].restartClock();
+                        }
+                    }
+                }
+                if (secondPlayer->getMode() && secondPlayer->getTime() > 10) {
                     secondPlayer->unsetMadMode();
+                    for (int i = 0; i < bots.size(); ++i)
+                        bots[i].unsetMadMode();
+                }
+                else if (secondPlayer->getMode() && secondPlayer->getTime() < 10) {
+                    for (int i = 0; i < currentBots; ++i) {
+                        if (bots[i].getMadMode() == false) {
+                            bots[i].setMadMode();
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                        }
+
+                        if (bots[i].getSecondsForMadMode() > 0.2) {
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                            bots[i].restartClock();
+                        }
+                    }
+                }
 
                 window.clear(sf::Color::Black);
                 window.draw(map);
