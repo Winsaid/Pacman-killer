@@ -206,7 +206,7 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 		setText(std::string("Select Name"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 250)),
 		"SelectName",
-		GameState::Exit
+		GameState::Empty
 	);
 
 	Button SelectColorButton(
@@ -220,7 +220,7 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 		setText(std::string("Select Control"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(432, 100), black, sf::Vector2f(100, 490)),
 		"Select Control",
-		GameState::Exit
+		GameState::Control
 	);
 
 	Button SelectLifesButton(
@@ -265,15 +265,6 @@ Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font, co
 	sf::Text secondAdmin = setText("Sonador", 80, &font, blue);
 	sf::Text thirdAdmin = setText("Wave78", 80, &font, red);
 
-
-	Button BackButton(
-		setText(std::string("Back"), 75, &font1, yellow),
-		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 730)),
-		"Back To Menu",
-		GameState::Back
-	);
-	std::vector<Button> buttons;
-
 	header.setPosition(520, 20);
 	firstAdmin.setPosition(900, 120);
 	secondAdmin.setPosition(900, 220);
@@ -282,10 +273,8 @@ Window createAuthorsWindow(sf::Sprite backgroundSprite, const sf::Font& font, co
 	contents.push_back(firstAdmin);
 	contents.push_back(secondAdmin);
 	contents.push_back(thirdAdmin);
-	buttons.push_back(BackButton);
 
 	window.setContents(contents);
-	window.setButtons(buttons);
 	window.setBackground(backgroundSprite);
 
 	return window;
@@ -295,7 +284,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
 	const auto black = sf::Color{ 0x00000099 };
 	const int textSize = 75;
-	const auto red = sf::Color(70, 0, 0);
+	const auto red = sf::Color::Red;
 	const auto green = sf::Color(0, 70, 0);
 	Window window;
 
@@ -364,24 +353,17 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 	Button multiplay(
 		setText(std::string("multiplay"), 73, &font, yellow),
-		setRectangle(sf::Vector2f(320, 100), black, sf::Vector2f(500, 750)),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 750)),
 		"nonActive",
 		GameState::Hold
 	);
 
-	Button standart(
-		setText(std::string("standart"), 73, &font, yellow),
-		setRectangle(sf::Vector2f(320, 100), black, sf::Vector2f(980, 750)),
-		"active",
-		GameState::Ready
-	);
 	Button BackButton(
 		setText(std::string("Back"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 870)),
 		"Back To Menu",
 		GameState::Back
 	);
-	standart.setOutline(3, green);
 	multiplay.setOutline(3, red);
 	std::vector<Button> buttons;
 	buttons.push_back(StartGameButton);
@@ -394,7 +376,6 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	buttons.push_back(BackButton);
 	buttons.push_back(Rounds);
 	buttons.push_back(multiplay);
-	buttons.push_back(standart);
 	buttons.push_back(Bots);
 
 	window.setButtons(buttons);
@@ -405,10 +386,10 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 
 Window createPromptWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	const auto yellow = sf::Color(255, 255, 0);
-	const auto white = sf::Color(200, 200, 200);
+	const auto pink = sf::Color::Magenta;
 	const auto blue = sf::Color(0, 0, 70);
 	const auto red = sf::Color(70, 0, 0);
-	const auto purple = sf::Color(70, 0, 70);
+	const auto orange = sf::Color(255,127,39);
 	const auto blackP = sf::Color(0, 0, 0);
 	const auto black = sf::Color(0, 0, 0, 200);
 	Window window;
@@ -431,26 +412,26 @@ Window createPromptWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	Button redColor(
 		setText(std::string(""), 75, &font, red),
 		setRectangle(sf::Vector2f(50, 50), red, sf::Vector2f(690, 150)),
-		"",
+		"Red",
 		GameState::Unselected
 	);
 	Button blueColor(
 		setText(std::string(""), 75, &font, blue),
 		setRectangle(sf::Vector2f(50, 50), blue, sf::Vector2f(630, 150)),
-		"",
+		"Blue",
 		GameState::Unselected
 	);
-	Button whiteColor(
-		setText(std::string(""), 75, &font, white),
-		setRectangle(sf::Vector2f(50, 50), white, sf::Vector2f(570, 150)),
-		"",
+	Button PinkColor(
+		setText(std::string(""), 75, &font, pink),
+		setRectangle(sf::Vector2f(50, 50), pink, sf::Vector2f(570, 150)),
+		"Pink",
 		GameState::Selected
 	);
 
-	Button purpleColor(
-		setText(std::string(""), 75, &font, purple),
-		setRectangle(sf::Vector2f(50, 50), purple, sf::Vector2f(750, 150)),
-		"",
+	Button OrangeColor(
+		setText(std::string(""), 75, &font, orange),
+		setRectangle(sf::Vector2f(50, 50), orange, sf::Vector2f(750, 150)),
+		"Orange",
 		GameState::Unselected
 	);
 
@@ -461,13 +442,13 @@ Window createPromptWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 		GameState::OptionsMenu
 	);
 
-	whiteColor.setOutline(3, sf::Color::Yellow);
+	PinkColor.setOutline(3, sf::Color::Yellow);
 	std::vector<Button> buttons;
 	buttons.push_back(BackButton);
-	buttons.push_back(whiteColor);
+	buttons.push_back(PinkColor);
 	buttons.push_back(redColor);
 	buttons.push_back(blueColor);
-	buttons.push_back(purpleColor);
+	buttons.push_back(OrangeColor);
 
 	window.setBackground(backgroundSprite);
 	window.setButtons(buttons);
@@ -479,11 +460,9 @@ Window selectColors(Window window, sf::Vector2f mousePos) {
 		if (begin->getGameState() == GameState::Selected) {
 			begin->setGameState(GameState::Unselected);
 			begin->setOutline(3, sf::Color::Yellow);
-			begin->setString("");
 		}
 		if (begin->getGlobalBounds().contains(mousePos)) {
 			begin->setGameState(GameState::Selected);
-			begin->setString("isActive");
 			begin->setOutline(3, sf::Color::Cyan);
 		}
 	}
@@ -493,14 +472,15 @@ Window selectColors(Window window, sf::Vector2f mousePos) {
 
 Window switchMode(Window window, sf::Vector2f mousePos) {
 	for (auto begin = window.getBeginButton(), end = window.getendButton(); begin != end; ++begin) {
-		if (begin->getGameState() == GameState::Ready) {
+		if (begin->getGameState() == GameState::Hold) {
+			begin->setGameState(GameState::Ready);
+			begin->setOutline(3, sf::Color::Green);
+			break;
+		}
+		else if (begin->getGameState() == GameState::Ready) {
 			begin->setGameState(GameState::Hold);
 			begin->setOutline(3, sf::Color::Red);
-		}
-		if (begin->getGlobalBounds().contains(mousePos) && begin->getGameState() == GameState::Hold) {
-			begin->setGameState(GameState::Ready);
-			begin->setString("isActive");
-			begin->setOutline(3, sf::Color::Green);
+			break;
 		}
 	}
 	return window;
@@ -600,7 +580,7 @@ Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font)
 
 Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
-	const auto black = sf::Color::Black;
+	const auto black = sf::Color{ 0x00000099 };
 	const auto Green = sf::Color(23, 69, 31);
 	const int textSize = 75;
 
@@ -624,6 +604,8 @@ Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const 
 	std::vector<Button> buttons;
 
 	header.setPosition(310, 150);
+	header.setOutlineColor(yellow);
+	header.setOutlineThickness(5);
 	contents.push_back(header);
 	buttons.push_back(BackButton);
 	buttons.push_back(restartButton);
@@ -636,7 +618,7 @@ Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const 
 
 Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
-	const auto black = sf::Color::Black;
+	const auto black = sf::Color{ 0x00000099 };
 	const auto red = sf::Color::Red;
 	const int textSize = 75;
 
@@ -660,6 +642,8 @@ Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const
 	std::vector<Button> buttons;
 
 	header.setPosition(370, 100);
+	header.setOutlineColor(yellow);
+	header.setOutlineThickness(5);
 	contents.push_back(header);
 	buttons.push_back(BackButton);
 	buttons.push_back(restartButton);
@@ -668,4 +652,91 @@ Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const
 	window.setBackground(backgroundSprite);
 
 	return window;
+}
+
+Window createControlWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
+	const auto yellow = sf::Color{ 0xFFFF00FF };
+	const auto black = sf::Color{ 0x00000099 };
+	const int textSize = 75;
+	Window window;
+
+	Button SaveButton(
+		setText(std::string("Save"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 600)),
+		"Save",
+		GameState::Back
+	);
+
+	Button Life(
+		setText(std::string("Switch Manip"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 300)),
+		"Count of lifes",
+		GameState::Empty
+	);
+
+	Button wasd(
+		setText(std::string("WASD"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(420, 100), black, sf::Vector2f(500, 450)),
+		"WASD",
+		GameState::WASDch
+	);
+
+	Button arrows(
+		setText(std::string("arrows"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(420, 100), black, sf::Vector2f(978, 450)),
+		"Arrows",
+		GameState::WASD
+	);
+
+	std::vector<Button> buttons;
+	buttons.push_back(wasd);
+	buttons.push_back(arrows);
+	buttons.push_back(SaveButton);
+	buttons.push_back(Life);
+	window.setButtons(buttons);
+	window.setBackground(backgroundSprite);
+
+	return window;
+}
+
+Window saveCtrl(Window window, sf::Vector2f mousePos) {
+	for (auto begin = window.getBeginButton(), end = window.getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::WASDch) {
+			begin->setGameState(GameState::WASD);
+			begin->setOutline(3, sf::Color::Yellow);
+		}
+		if (begin->getGlobalBounds().contains(mousePos) && begin->getGameState() == GameState::WASD) {
+			begin->setGameState(GameState::WASDch);
+			begin->setOutline(3, sf::Color::Cyan);
+		}
+	}
+	return window;
+}
+
+std::string getControlFromBut(Window window) {
+	for (auto begin = window.getBeginButton(), end = window.getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::WASDch) {
+			return begin->getContent().getString();
+		}
+	}
+	return "WASD";
+}
+
+BotType GetColorSettings(Window window) {
+	for (auto begin = window.getBeginButton(), end = window.getendButton(); begin != end; ++begin) {
+		if (begin->getGameState() == GameState::Selected) {
+			if (begin->getString() == "Red") {
+				return BotType::Red;
+			}
+			if (begin->getString() == "Blue") {
+				return BotType::Blue;
+			}
+			if (begin->getString() == "Pink") {
+				return BotType::Pink;
+			}
+			if (begin->getString() == "Orange") {
+				return BotType::Orange;
+			}
+		}
+	}
 }

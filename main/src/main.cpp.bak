@@ -38,8 +38,8 @@ int main() {
     Level levelTwo(LEVEL_TWO_S, sf::Vector2f(MAP_LEVEL_TWO_HEIGHT, MAP_LEVEL_TWO_WIDTH), sf::Vector2f(MAP_START_LEVEL_TWO_X, MAP_START_LEVEL_TWO_Y));
 
     Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
-    Player* player = new Player(textures::playerTexture, map.getPlayerPosition());
-    Scale scale = getScale(map.getPoints().size());
+    Player* firstPlayer = new Player(textures::playerTexture, map.getPlayerPosition(), 1);
+    Player* secondPlayer = new Player(textures::playerTexture, map.getSecondPlayerPosition(), 2);    Scale scale = getScale(map.getPoints().size());
     std::vector<Bot> bots;
 
     sf::Font font;
@@ -54,6 +54,8 @@ int main() {
     end.setCharacterSize(30);
     end.setFont(font);
     end.setPosition(sf::Vector2f(900.f, 50.f));
+
+
     sf::Sprite health;
     health.setTexture(textures::playerTexture);
     health.setTextureRect(sf::IntRect(16, 16, 16, 16));
@@ -61,6 +63,14 @@ int main() {
     health.setPosition(sf::Vector2f(700.f, 50.f));
 
     std::vector<sf::Sprite> healths;
+
+    sf::Sprite secondHealth;
+    secondHealth.setTexture(textures::playerTexture);
+    secondHealth.setTextureRect(sf::IntRect(144, 96, 16, 16));
+    secondHealth.setScale(2, 2);
+    secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
+
+    std::vector<sf::Sprite> secondHealths;
 
     int actualPointCount;
     int pointCount = map.getPoints().size();
@@ -110,9 +120,11 @@ int main() {
     Window prompt = createPromptWindow(backgroundSpriteForMenu, font);
     Window pauseWindow = createPauseWindow(backgroundSpriteForMenu, font);
     Window SelectLife = createOptionLifeWindow(backgroundSpriteForMenu, font);
+    Window SelectControl = createControlWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
     bool isFirst = true;
-    
+     bool haveTwoPlayer;
+
     while (window.isOpen()) {
         float timeForMove = clockForMove.getElapsedTime().asMicroseconds();
         float timeForPlrSprt = clockForPlrSprt.getElapsedTime().asSeconds();
@@ -126,7 +138,7 @@ int main() {
             timesForChBotDir[i] = clockForBots[i].getElapsedTime().asSeconds();
         }
 
-        sf::IntRect lastTextureRect = player->getSprite().getTextureRect();
+        sf::IntRect lastTextureRect = firstPlayer->getSprite().getTextureRect();
         std::vector<Direction> lastBotDirections;
 
         for (int i = 0; i < currentBots && i < bots.size(); ++i) {
@@ -190,7 +202,20 @@ int main() {
             window.draw(authorWindow);
             openWindow = authorWindow;
             break;
-
+        case GameState::Control:
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
+        case GameState::WASD:
+            SelectControl = saveCtrl(SelectControl, mousePos);
+            player->setControl(getControlFromBut(SelectControl));
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
+        case GameState::WASDch:
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
         case GameState::Exit:
             window.close();
             break;
@@ -202,7 +227,18 @@ int main() {
             doStartGame = false;
             clockForBots.clear();
             bots.clear();
+            healths.clear();
+			secondHealths.clear();
             clockForStartBots.clear();
+            health.setPosition(sf::Vector2f(700.f, 50.f));
+ 			secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
+            
+            if (playWindow.getButtons()[9].getGameState() == GameState::Ready) {
+                haveTwoPlayer = true;
+            }
+            else {
+                haveTwoPlayer = false;
+            }
             break;
 
         case GameState::Restart:
@@ -210,9 +246,13 @@ int main() {
             gameState = GameState::StartGame;
             bots.clear();
             clockForBots.clear();
+            healths.clear();
+			secondHealths.clear();
             clockForStartBots.clear();
             isFirst = true;
             doStartGame = false;
+            health.setPosition(sf::Vector2f(700.f, 50.f));
+            secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
             break;
 
         case GameState::AddRound:
@@ -261,10 +301,13 @@ int main() {
             playWindow = switchMode(playWindow, mousePos);
             window.draw(playWindow);
             openWindow = playWindow;
+			gameState = GameState::Play;
             break;
         case GameState::Ready:
+			playWindow = switchMode(playWindow, mousePos);
             window.draw(playWindow);
             openWindow = playWindow;
+			gameState = GameState::Play;
             break;
         case GameState::Win:
             window.draw(WinWindow);
@@ -411,7 +454,7 @@ int main() {
             
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 gameState = GameState::Pause;
-                openWindow = mainWindow; 
+                openWindow = pauseWindow; 
 				}
 
             if (clockForAddBot.getElapsedTime().asSeconds() > 5 && currentBots != bots.size()) {
@@ -425,10 +468,21 @@ int main() {
         case GameState::MainMenu:
                 window.draw(openWindow);
             break;
+            
+        case GameState::Pause:
+            window.draw(pauseWindow);
+            break;
+
+        case GameState::Continue:
+            openWindow = playWindow;
+            gameState = GameState::StartGame;
+            break;
         }
+
 
         window.display();
     }
     delete player;
+	delete secondPlayer;
     return 0;
 }

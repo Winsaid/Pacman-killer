@@ -21,12 +21,16 @@ Bot::Bot(BotType color, sf::Texture& texture)
 	switch (color) {
 	case Red:
 		_sprite.setTextureRect(sf::IntRect(32, 64, 16, 16));
+		break;
 	case Pink:
 		_sprite.setTextureRect(sf::IntRect(32, 80, 16, 16));
+		break;
 	case Blue:
 		_sprite.setTextureRect(sf::IntRect(32, 96, 16, 16));
+		break;
 	case Orange:
 		_sprite.setTextureRect(sf::IntRect(32, 112, 16, 16));
+		break;
 	}
 
 	_sprite.setScale(2, 2);

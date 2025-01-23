@@ -13,3 +13,4 @@
 #include "Scale.h"
 #include "Bot.h"
 #include "PlayerController.h"
+#include "Bonus.h"

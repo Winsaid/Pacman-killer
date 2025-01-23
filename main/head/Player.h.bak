@@ -20,17 +20,15 @@ public:
 	void unsetMadMode();
 	
 	PlayerController* getController() { return _controller; }
-	std::string getControl() { return _control; };
-	void setControl(std::string control) { this->_control = control; };
 	bool getMode();
 	float getTime();
+	std::string getControl() { return _control; };
+	void setControl(std::string control) { this->_control = control; };
 	int getPlayerNumber() { return _playerNumber; }
-
-private:
-	int _playerNumber;
+private: 
+	std::string       _control;
 	sf::Clock         _timerForMad;
 	State             _state = State::IDLE;
 	PlayerController* _controller;
 	bool              _madMode = false;
-	std::string       _control = "WASD";
 };
