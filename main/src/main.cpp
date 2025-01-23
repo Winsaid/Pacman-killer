@@ -6,7 +6,7 @@ std::vector<Bot> createBots(int botsCount, sf::Vector2f position)
     std::vector<Bot> bots;
 
     for (int i = 0; i < botsCount; ++i) {
-        bots.push_back(Bot(BotType::Orange, textures::playerTexture));
+        bots.push_back(Bot(BotType::Red, textures::playerTexture));
     }
 
     for (int i = 0; i < botsCount; ++i) {
@@ -63,10 +63,6 @@ int main() {
     health.setPosition(sf::Vector2f(700.f, 50.f));
 
     std::vector<sf::Sprite> healths;
-    for (int index = 0; index < firstPlayer->getHP(); ++index) {
-        healths.push_back(health);
-        health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
-    }
 
     sf::Sprite secondHealth;
     secondHealth.setTexture(textures::playerTexture);
@@ -75,14 +71,11 @@ int main() {
     secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
 
     std::vector<sf::Sprite> secondHealths;
-    for (int index = 0; index < secondPlayer->getHP(); ++index) {
-        secondHealths.push_back(secondHealth);
-        secondHealth.setPosition(sf::Vector2f(secondHealth.getPosition().x + 48, secondHealth.getPosition().y));
-    }
 
     int actualPointCount;
     int pointCount = map.getPoints().size();
     bool doStartGame = false;
+    int countBotSkinChanges = 0;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pacman");
 
@@ -222,8 +215,17 @@ int main() {
             clockForBots.clear();
             bots.clear();
             healths.clear();
+            secondHealths.clear();
             clockForStartBots.clear();
             health.setPosition(sf::Vector2f(700.f, 50.f));
+            secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
+            
+            if (playWindow.getButtons()[9].getGameState() == GameState::Ready) {
+                haveTwoPlayer = true;
+            }
+            else {
+                haveTwoPlayer = false;
+            }
             break;
 
         case GameState::Restart:
@@ -232,11 +234,12 @@ int main() {
             bots.clear();
             clockForBots.clear();
             healths.clear();
+            secondHealths.clear();
             clockForStartBots.clear();
             isFirst = true;
             doStartGame = false;
             health.setPosition(sf::Vector2f(700.f, 50.f));
-            health.setPosition(sf::Vector2f(700.f, 50.f));
+            secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
             break;
 
         case GameState::AddRound:
@@ -285,10 +288,13 @@ int main() {
             playWindow = switchMode(playWindow, mousePos);
             window.draw(playWindow);
             openWindow = playWindow;
+            gameState = GameState::Play;
             break;
         case GameState::Ready:
+            playWindow = switchMode(playWindow, mousePos);
             window.draw(playWindow);
             openWindow = playWindow;
+            gameState = GameState::Play;
             break;
         case GameState::Win:
             window.draw(WinWindow);
@@ -304,17 +310,18 @@ int main() {
             openWindow = prompt;
             break;
         case GameState::StartGame:
-            haveTwoPlayer = true;
             botsCount = TextToInt(openWindow.getButtons()[6].getContent());            
 
             if (!haveTwoPlayer) {
                 if (isFirst == true) {
                     if (TextToInt(openWindow.getButtons()[2].getContent()) == 0) {
-                        Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+                        Map map0(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+                        map = map0;
                         isFirst = false;
                     }
                     else if (TextToInt(openWindow.getButtons()[2].getContent()) == 1) {
-                        Map map(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y));
+                        Map map1(levelOneBin, levelOne, sf::Vector2f(LEVEL_ONE_BOT_START_X, LEVEL_ONE_BOT_START_Y), sf::Vector2f(LEVEL_ONE_PLAEYR_START_X, LEVEL_ONE_PLAEYR_START_Y));
+                        map = map1;
                         isFirst = false;
                     }
                     else if (TextToInt(openWindow.getButtons()[2].getContent()) == 2) {
@@ -328,6 +335,12 @@ int main() {
 
                     for (int i = 0; i < currentBots; ++i) {
                         bots[i].setPosition(map.getBotPosition());
+                    }
+
+                    firstPlayer->setHP(TextToInt(SelectLife.getButtons()[1].getContent()));
+                    for (int i = 0; i < firstPlayer->getHP(); ++i) {
+                        healths.push_back(health);
+                        health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
                     }
 
                     pointCount = map.getPoints().size();
@@ -370,17 +383,32 @@ int main() {
                     }
                 }
 
-                if (firstPlayer->getMode() && firstPlayer->getTime() > 15)
+                if (firstPlayer->getMode() && firstPlayer->getTime() > 10) {
                     firstPlayer->unsetMadMode();
+                    for (int i = 0; i < bots.size(); ++i)
+                        bots[i].unsetMadMode();
+                }
+                else if (firstPlayer->getMode() && firstPlayer->getTime() < 10) {
+                    for (int i = 0; i < currentBots; ++i) {
+                        if (bots[i].getMadMode() == false) {
+                            bots[i].setMadMode();
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                        }
+                        
+                        if (bots[i].getSecondsForMadMode() > 0.2) {
+                            bots[i].setMadModeSkin(bots[i].getSprite().getTextureRect());
+                            bots[i].restartClock();
+                        }
+                    }
+                }
 
                 window.clear(sf::Color::Black);
                 window.draw(map);
                 window.draw(scale);
 
                 if (scale.isAllPointCollected()) {
-                    end.setString("You win!");
-                    end.setFillColor(sf::Color::Cyan);
-                    window.draw(end);
+                    gameState = GameState::Win;
+                    window.clear();
                 }
 
 
@@ -419,9 +447,8 @@ int main() {
                 }
               
                 if (firstPlayer->getHP() == 0) {
-                    end.setString("You lose!");
-                    end.setFillColor(sf::Color::Red);
-                    window.draw(end);
+                    gameState = GameState::Lose;
+                    window.clear();
                 }
             }
             else {
@@ -432,7 +459,7 @@ int main() {
                         map = map1;
                     }
                     else if (TextToInt(openWindow.getButtons()[2].getContent()) == 1) {
-                        Map map1(levelZeroBin, levelZero, sf::Vector2f(LEVEL_ZERO_BOT_START_X, LEVEL_ZERO_BOT_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_START_X, LEVEL_ZERO_PLAEYR_START_Y), sf::Vector2f(LEVEL_ZERO_PLAEYR_SECOND_START_X, LEVEL_ZERO_PLAEYR_SECOND_START_Y));
+                        Map map1(levelOneBin, levelOne, sf::Vector2f(LEVEL_ONE_BOT_START_X, LEVEL_ONE_BOT_START_Y), sf::Vector2f(LEVEL_ONE_PLAEYR_START_X, LEVEL_ONE_PLAEYR_START_Y), sf::Vector2f(LEVEL_ONE_PLAEYR_SECOND_START_X, LEVEL_ONE_PLAEYR_SECOND_START_Y));
                         map = map1;
                         isFirst = false;
                     }
@@ -447,6 +474,18 @@ int main() {
 
                     for (int i = 0; i < currentBots; ++i) {
                         bots[i].setPosition(map.getBotPosition());
+                    }
+
+                    firstPlayer->setHP(TextToInt(SelectLife.getButtons()[1].getContent()));
+                    for (int i = 0; i < firstPlayer->getHP(); ++i) {
+                        healths.push_back(health);
+                        health.setPosition(sf::Vector2f(health.getPosition().x + 48, health.getPosition().y));
+                    }
+
+                    secondPlayer->setHP(TextToInt(SelectLife.getButtons()[1].getContent()));
+                    for (int index = 0; index < secondPlayer->getHP(); ++index) {
+                        secondHealths.push_back(secondHealth);
+                        secondHealth.setPosition(sf::Vector2f(secondHealth.getPosition().x + 48, secondHealth.getPosition().y));
                     }
 
                     pointCount = map.getPoints().size();
@@ -503,13 +542,12 @@ int main() {
                 window.draw(scale);
 
                 if (scale.isAllPointCollected()) {
-                    end.setString("You win!");
-                    end.setFillColor(sf::Color::Cyan);
-                    window.draw(end);
+                    gameState = GameState::Win;
+                    window.clear();
                 }
 
                 for (int i = 0; i < currentBots; ++i) {
-                    if (bots[i].catchPlayer(firstPlayer) && firstPlayer->getHP() != 0) {
+                    if (bots[i].catchPlayer(firstPlayer) && (firstPlayer->getHP() != 0)) {
                         if (firstPlayer->getMode()) {
                             bots[i].setPosition(map.getBotPosition());
                             bots[i].setDirection(Direction::LEFT);

@@ -295,7 +295,7 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	const auto yellow = sf::Color{ 0xFFFF00FF };
 	const auto black = sf::Color{ 0x00000099 };
 	const int textSize = 75;
-	const auto red = sf::Color(70, 0, 0);
+	const auto red = sf::Color::Red;
 	const auto green = sf::Color(0, 70, 0);
 	Window window;
 
@@ -364,24 +364,17 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	);
 	Button multiplay(
 		setText(std::string("multiplay"), 73, &font, yellow),
-		setRectangle(sf::Vector2f(320, 100), black, sf::Vector2f(500, 750)),
+		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 750)),
 		"nonActive",
 		GameState::Hold
 	);
 
-	Button standart(
-		setText(std::string("standart"), 73, &font, yellow),
-		setRectangle(sf::Vector2f(320, 100), black, sf::Vector2f(980, 750)),
-		"active",
-		GameState::Ready
-	);
 	Button BackButton(
 		setText(std::string("Back"), 75, &font, yellow),
 		setRectangle(sf::Vector2f(900, 100), black, sf::Vector2f(500, 870)),
 		"Back To Menu",
 		GameState::Back
 	);
-	standart.setOutline(3, green);
 	multiplay.setOutline(3, red);
 	std::vector<Button> buttons;
 	buttons.push_back(StartGameButton);
@@ -394,7 +387,6 @@ Window createPlayWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	buttons.push_back(BackButton);
 	buttons.push_back(Rounds);
 	buttons.push_back(multiplay);
-	buttons.push_back(standart);
 	buttons.push_back(Bots);
 
 	window.setButtons(buttons);
@@ -493,14 +485,15 @@ Window selectColors(Window window, sf::Vector2f mousePos) {
 
 Window switchMode(Window window, sf::Vector2f mousePos) {
 	for (auto begin = window.getBeginButton(), end = window.getendButton(); begin != end; ++begin) {
-		if (begin->getGameState() == GameState::Ready) {
+		if (begin->getGameState() == GameState::Hold) {
+			begin->setGameState(GameState::Ready);
+			begin->setOutline(3, sf::Color::Green);
+			break;
+		}
+		else if (begin->getGameState() == GameState::Ready) {
 			begin->setGameState(GameState::Hold);
 			begin->setOutline(3, sf::Color::Red);
-		}
-		if (begin->getGlobalBounds().contains(mousePos) && begin->getGameState() == GameState::Hold) {
-			begin->setGameState(GameState::Ready);
-			begin->setString("isActive");
-			begin->setOutline(3, sf::Color::Green);
+			break;
 		}
 	}
 	return window;

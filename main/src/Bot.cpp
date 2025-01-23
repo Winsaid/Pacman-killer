@@ -6,6 +6,38 @@ const int LEVEL_TWO_BOT_START_Y = 308;
 const int LEVEL_ZERO_BOT_START_X = 886;
 const int LEVEL_ZERO_BOT_START_Y = 308;
 
+void Bot::setBlue1()
+{
+	_sprite.setTextureRect(sf::IntRect(128, 64, 16, 16));
+}
+
+void Bot::setBlue2()
+{
+	_sprite.setTextureRect(sf::IntRect(144, 64, 16, 16));
+}
+
+void Bot::setWhite1()
+{
+	_sprite.setTextureRect(sf::IntRect(160, 64, 16, 16));
+}
+
+void Bot::setWhite2()
+{
+	_sprite.setTextureRect(sf::IntRect(178, 64, 16, 16));
+}
+
+void Bot::setMadModeSkin(sf::IntRect textureRect)
+{
+	if (textureRect == sf::IntRect(128, 64, 16, 16)) {
+		this->setBlue2();
+	}
+	else if (textureRect == sf::IntRect(144, 64, 16, 16))
+		this->setWhite1();
+	else if (textureRect == sf::IntRect(160, 64, 16, 16))
+		this->setWhite2();
+	else
+		this->setBlue1();
+}
 
 auto createPathFromStartToEnd(Map& map, sf::FloatRect start, sf::FloatRect end)
 {
@@ -21,12 +53,20 @@ Bot::Bot(BotType color, sf::Texture& texture)
 	switch (color) {
 	case Red:
 		_sprite.setTextureRect(sf::IntRect(32, 64, 16, 16));
+		break;
+
 	case Pink:
 		_sprite.setTextureRect(sf::IntRect(32, 80, 16, 16));
+		break;
+
 	case Blue:
 		_sprite.setTextureRect(sf::IntRect(32, 96, 16, 16));
+		break;
+
 	case Orange:
 		_sprite.setTextureRect(sf::IntRect(32, 112, 16, 16));
+		break;
+
 	}
 
 	_sprite.setScale(2, 2);
@@ -49,6 +89,7 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 		auto end = map.getIntersectNoZeroBlock(playerPos);
 		auto path = createPathFromStartToEnd(map, start, end);
 	}
+
 	Direction lastDirection = _direction;
 	sf::FloatRect rect = this->_sprite.getGlobalBounds();
 	timeForMove /= 400;
@@ -82,22 +123,30 @@ void Bot::Update(Map& map, float timeForMove, float timeForChBotDir)
 
 	switch (_direction) {
 	case Direction::RIGHT:
-		_sprite.setTextureRect(sf::IntRect(0, _sprite.getTextureRect().top, 16, 16));
+		if (!_madMode)
+			_sprite.setTextureRect(sf::IntRect(0, _sprite.getTextureRect().top, 16, 16));
+		
 		updated_pos.x += botSpeed * timeForMove;
 		break;
 
 	case Direction::LEFT:
-		_sprite.setTextureRect(sf::IntRect(32, _sprite.getTextureRect().top, 16, 16));
+		if (!_madMode)
+			_sprite.setTextureRect(sf::IntRect(32, _sprite.getTextureRect().top, 16, 16));
+		
 		updated_pos.x -= botSpeed * timeForMove;
 		break;
 
 	case Direction::UP:
-		_sprite.setTextureRect(sf::IntRect(64, _sprite.getTextureRect().top, 16, 16));
+		if (!_madMode)
+			_sprite.setTextureRect(sf::IntRect(64, _sprite.getTextureRect().top, 16, 16));
+		
 		updated_pos.y -= botSpeed * timeForMove;
 		break;
 
 	case Direction::DOWN:
-		_sprite.setTextureRect(sf::IntRect(96, _sprite.getTextureRect().top, 16, 16));
+		if (!_madMode)
+			_sprite.setTextureRect(sf::IntRect(96, _sprite.getTextureRect().top, 16, 16));
+		
 		updated_pos.y += botSpeed * timeForMove;
 		break;
 	}
