@@ -18,7 +18,7 @@ head/main.h head/GameState.h
 head/Character.h head/Constants.h
 head/Map.h head/Player.h
 head/PlayerController.h
-head/Scale.h head/Textures.h head/Bot.h)
+head/Scale.h head/Textures.h head/Bot.h )
 
 # Подключите SFML библиотеки к вашему проекту
 target_link_libraries(main sfml-graphics sfml-audio sfml-window sfml-system)

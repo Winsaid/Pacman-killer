@@ -9,7 +9,7 @@ enum PressedButton {
 	A,
 	S,
 	D,
-	STOP
+	STOP,
 };
 
 class PlayerController {
@@ -21,11 +21,14 @@ public:
 	void setPressedButton(PressedButton button) { _pressedButton = button; }
 
 	static PlayerController* getPlayerController();
-	void ControllPlayer(Player* player, Map &map, float time);
+	static PlayerController* getSecondPlayerController();
+	void ControllPlayer(Player* player, Map &map, float time, float ones = 1);
 	PressedButton getPressedButton() { return _pressedButton; }
 
 private:
 	PlayerController() = default;
 	static PlayerController* _controller;
+	static PlayerController* _secondController;
 	PressedButton _pressedButton = PressedButton::A;
+	PressedButton _secondPressedButton = PressedButton::A;
 };
