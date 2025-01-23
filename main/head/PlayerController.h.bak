@@ -1,4 +1,4 @@
-,#pragma once
+#pragma once
 
 #include "Map.h"
 
@@ -30,4 +30,5 @@ private:
 	static PlayerController* _controller;
 	static PlayerController* _secondController;
 	PressedButton _pressedButton = PressedButton::A;
+	PressedButton _secondPressedButton = PressedButton::A;
 };

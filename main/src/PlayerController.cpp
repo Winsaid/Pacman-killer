@@ -26,11 +26,11 @@ PlayerController* PlayerController::getSecondPlayerController() {
     return _secondController;
 }
 
-void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
+void PlayerController::ControllPlayer(Player* player, Map& map, float time, float ones) {
     sf::Vector2f  updated_pos = player->getPosition();
     sf::FloatRect playerRect(player->getSprite().getGlobalBounds());
     sf::FloatRect smallPlayerRect(player->getSprite().getGlobalBounds());
-    float         playerSpeed = 0.06;
+    float         playerSpeed = 0.06 * ones;
     PressedButton pressedButton;
     PressedButton lastPressedButton;
     if (player->getPlayerNumber() == 1)
@@ -39,6 +39,8 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         lastPressedButton = _secondPressedButton;
 
     std::vector<sf::CircleShape> points = map.getPoints();
+    std::vector<sf::Sprite> bombs = map.getBombs();
+    std::vector<sf::Sprite> acseleration = map.getAcseleration();
 
     smallPlayerRect.height -= 18;
     smallPlayerRect.width -= 18;
@@ -55,6 +57,17 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         }
     }
 
+    for (int index = 0; index < bombs.size(); ++index) {
+        if (smallPlayerRect.intersects(bombs[index].getGlobalBounds())) {
+            map.deleteBomb(index);
+        }
+    }
+
+    for (int index = 0; index < acseleration.size(); ++index) {
+        if (smallPlayerRect.intersects(acseleration[index].getGlobalBounds())) {
+            map.deleteAcseleration(index);
+        }
+    }
     std::string ctr = player->getControl();
     if (ctr == "WASD") {
         if (player->getPlayerNumber() == 1) {
@@ -92,6 +105,22 @@ void PlayerController::ControllPlayer(Player* player, Map &map, float time) {
         }
     }
 
+    if (player->getPlayerNumber() == 1) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) this->_pressedButton = PressedButton::A;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) this->_pressedButton = PressedButton::D;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) this->_pressedButton = PressedButton::W;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) this->_pressedButton = PressedButton::S;
+
+        pressedButton = _pressedButton;
+    }
+    else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) this->_secondPressedButton = PressedButton::A;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) this->_secondPressedButton = PressedButton::D;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) this->_secondPressedButton = PressedButton::W;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) this->_secondPressedButton = PressedButton::S;
+
+        pressedButton = _secondPressedButton;
+    }  
     if (player->getPlayerNumber() == 1) {
         if (this->_pressedButton == PressedButton::A) {
             updated_pos.x -= playerSpeed * time;

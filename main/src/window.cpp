@@ -203,8 +203,8 @@ Window createOptionWindow(sf::Sprite backgroundSprite, const sf::Font& font) {
 	Window window;
 
 	Button SelectNameButton(
-		setText(std::string("Select Name"), 75, &font, yellow),
-		setRectangle(sf::Vector2f(250, 100), black, sf::Vector2f(100, 250)),
+		setText(std::string("Options:"), 75, &font, yellow),
+		setRectangle(sf::Vector2f(550, 100), black, sf::Vector2f(100, 150)),
 		"SelectName",
 		GameState::Empty
 	);

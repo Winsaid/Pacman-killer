@@ -5,6 +5,16 @@ void Map::deletePoint(int index) {
 	_points.erase(iter + index);
 }
 
+void Map::deleteBomb(int index) {
+	auto iter = _bombs.begin();
+	_bombs.erase(iter + index);
+}
+
+void Map::deleteAcseleration (int index) {
+	auto iter = _acseleration.begin();
+	_acseleration.erase(iter + index);
+}
+
 Map::Map(Level binMap, Level map, sf::Vector2f botPosition, sf::Vector2f playerPosition, sf::Vector2f secondPlayerPosition) : _binMap(binMap), _map(map), _botPosition(botPosition), _playerPosition(playerPosition), _secondPlayerPosition(secondPlayerPosition)
 {
 	sf::String tempStr;
@@ -27,6 +37,76 @@ Map::Map(Level binMap, Level map, sf::Vector2f botPosition, sf::Vector2f playerP
 			}
 		}
 	}
+}
+
+void Map::setBomb(sf::Texture& texture) {
+	sf::String tempStr;
+	sf::Sprite bomb;
+
+	bomb.setTexture(texture);
+	bomb.setTextureRect(sf::IntRect(0, 176, 16, 16));
+	bomb.setScale(2, 2);
+	int count = 0;
+	for (int i = 1; i < _binMap.getSize().x; ++i) {
+		for (int j = 2; j < _binMap.getSize().y - 1; ++j) {
+			tempStr = _binMap.getStrings()[i].substring(j, 1);
+			if (tempStr == sf::String("1")) {
+				++count;
+			}
+		}
+	}
+
+	int randNum = 1 + rand() % count;
+	count = 0;
+
+
+	for (int i = 1; i < _binMap.getSize().x; ++i) {
+		for (int j = 2; j < _binMap.getSize().y - 1; ++j) {
+			tempStr = _binMap.getStrings()[i].substring(j, 1);
+			if (tempStr == sf::String("1")) {
+				++count;
+			}
+			if (count == randNum) {
+				bomb.setPosition(sf::Vector2f(_binMap.getPosition().x + j * 16 * 2 + 32, _binMap.getPosition().y + i * 16 * 2));
+			}
+		}
+	}
+	_bombs.push_back(bomb);
+}
+
+void Map::setAcseleration(sf::Texture& texture) {
+	sf::String tempStr;
+	sf::Sprite acseleration;
+
+	acseleration.setTexture(texture);
+	acseleration.setTextureRect(sf::IntRect(64, 192, 16, 16));
+	acseleration.setScale(2, 2);
+	int count = 0;
+	for (int i = 1; i < _binMap.getSize().x; ++i) {
+		for (int j = 2; j < _binMap.getSize().y - 1; ++j) {
+			tempStr = _binMap.getStrings()[i].substring(j, 1);
+			if (tempStr == sf::String("1")) {
+				++count;
+			}
+		}
+	}
+
+	int randNum = 1 + rand() % count;
+	count = 0;
+
+
+	for (int i = 1; i < _binMap.getSize().x; ++i) {
+		for (int j = 2; j < _binMap.getSize().y - 1; ++j) {
+			tempStr = _binMap.getStrings()[i].substring(j, 1);
+			if (tempStr == sf::String("1")) {
+				++count;
+			}
+			if (count == randNum) {
+				acseleration.setPosition(sf::Vector2f(_binMap.getPosition().x + j * 16 * 2 + 32, _binMap.getPosition().y + i * 16 * 2));
+			}
+		}
+	}
+	_acseleration.push_back(acseleration);
 }
 
 Level::Level(std::vector<sf::String> strings, sf::Vector2f size, sf::Vector2f position)
@@ -139,6 +219,8 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(_map);
 	for (int i = 0; i < _points.size(); ++i) target.draw(_points[i]);
+	for (int i = 0; i < _bombs.size(); ++i) target.draw(_bombs[i]);
+	for (int i = 0; i < _acseleration.size(); ++i) target.draw(_acseleration[i]);
 }
 
 bool Map::isAvailableZone(sf::FloatRect rect)

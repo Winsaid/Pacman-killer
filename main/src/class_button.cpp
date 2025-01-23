@@ -5,7 +5,8 @@ Button::Button(sf::Text content, sf::RectangleShape button, std::string textStri
 {
 	int textXSize = this->_content.getLocalBounds().width;
 	int textYSize = this->_content.getLocalBounds().height;
-
+	_content.setOutlineColor(sf::Color::Black);
+	_content.setOutlineThickness(5);
 	if (textXSize > this->_button.getSize().x)
 		this->_button.setSize(sf::Vector2f(textXSize, this->_button.getSize().y));
 

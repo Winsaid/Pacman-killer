@@ -14,7 +14,7 @@ public:
 	Player() = delete;
 	Player(sf::Texture& texture, sf::Vector2f start_pos, int playerNumber);
 
-	void Update(Map &map, float time, float timeForMove);
+	void Update(Map &map, float time, float timeForMove, float ones = 1);
 	void setState(State state) { _state = state; }
 	void setMadMode();
 	void unsetMadMode();
@@ -33,4 +33,5 @@ private:
 	PlayerController* _controller;
 	bool              _madMode = false;
 	std::string       _control = "WASD";
+	
 };
