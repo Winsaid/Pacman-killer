@@ -1,4 +1,5 @@
 # ninja log v5
+<<<<<<< HEAD
 5	518	7593008461044355	CMakeFiles/main.dir/src/Character.cpp.obj	37338492f9c4466
 12	864	7593267967863110	CMakeFiles/main.dir/src/Player.cpp.obj	3738fedaa81f1d60
 2	378	7593007204648686	CMakeFiles/main.dir/src/Scale.cpp.obj	bad4c1ebd70793be
@@ -35,3 +36,20 @@
 638	766	7593281526938783	main.exe	fc1bf00a55c195dc
 2	398	7593283843048290	CMakeFiles/main.dir/src/class_button.cpp.obj	d1637cd3e569cd30
 398	534	7593283844119751	main.exe	fc1bf00a55c195dc
+=======
+47	1658	7592886743142040	CMakeFiles/main.dir/src/Character.cpp.obj	25a6a2a0c6ee340a
+88	1670	7592886743247435	CMakeFiles/main.dir/src/Scale.cpp.obj	a58b42f561488aa1
+18	772	7593232383174478	CMakeFiles/main.dir/src/Player.cpp.obj	ded9db922d4fd899
+2	646	7593237414319595	CMakeFiles/main.dir/src/PlayerController.cpp.obj	87290e12ce9c29c0
+17	1192	7593231563912074	CMakeFiles/main.dir/src/class_button.cpp.obj	e747ab55454aa6f6
+17	850	7593232147822715	CMakeFiles/main.dir/src/Bot.cpp.obj	52fbf8991d35bbf8
+47	941	7593232148702957	CMakeFiles/main.dir/src/window.cpp.obj	7d6d6d45714949ea
+10	771	7593232584950269	CMakeFiles/main.dir/src/Map.cpp.obj	362ef1c3589919cb
+2	858	7593234294723365	CMakeFiles/main.dir/src/main.cpp.obj	846ba0dad259b612
+647	972	7593237417031862	main.exe	5275638e8c840f23
+2	225	7593238033452704	build.ninja	509610c385d3822e
+3	985	7593239730360129	CMakeFiles/main.dir/src/main.cpp.obj	846ba0dad259b612
+986	1258	7593239732570619	main.exe	5275638e8c840f23
+2	1246	7593245948364619	CMakeFiles/main.dir/src/main.cpp.obj	846ba0dad259b612
+1247	1453	7593245949985846	main.exe	5275638e8c840f23
+>>>>>>> 9859c7660e9ff3ddb0d182c696ad07cb273e4d03

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 C:/Users/VAFrolov/Desktop/pac/main/out/build/x64-Debug/CMakeFiles/main.dir
 C:/Users/VAFrolov/Desktop/pac/main/out/build/x64-Debug/CMakeFiles/edit_cache.dir
 C:/Users/VAFrolov/Desktop/pac/main/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+=======
+C:/dev/Pacman-killer/main/out/build/x64-Debug/CMakeFiles/main.dir
+C:/dev/Pacman-killer/main/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/dev/Pacman-killer/main/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+>>>>>>> 9859c7660e9ff3ddb0d182c696ad07cb273e4d03
