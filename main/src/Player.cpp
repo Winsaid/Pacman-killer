@@ -40,9 +40,15 @@ Player::Player(sf::Texture& texture, sf::Vector2f start_pos, int playerNumber) {
     _size = sf::Vector2f(32, 32);
 }
 
+<<<<<<< HEAD
 void Player::Update(Map &map, float timeForMove, float timeForPlrSprt, float ones) {
     Direction lastDirection = _direction;
     _controller->ControllPlayer( this, map, timeForMove / 400, ones);
+=======
+void Player::Update(Map &map, float timeForMove, float timeForPlrSprt) {
+    Direction lastDirection = _direction;
+    _controller->ControllPlayer( this, map, timeForMove / 400);
+>>>>>>> 446753267755d968b0b6593bd2df7d9a885d88c3
     if (this->_playerNumber == 1)
         map.setPlayerRect(this->getSprite().getGlobalBounds());
     else
