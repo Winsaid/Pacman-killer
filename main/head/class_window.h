@@ -69,3 +69,6 @@ Window createWinWindow(sf::Sprite backgroundSprite, const sf::Font& font, const 
 Window createLoseWindow(sf::Sprite backgroundSprite, const sf::Font& font, const sf::Font& font1);
 Window createPauseWindow(sf::Sprite backgroundSprite, const sf::Font& font);
 Window createOptionLifeWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window createControlWindow(sf::Sprite backgroundSprite, const sf::Font& font);
+Window saveCtrl(Window window, sf::Vector2f mousePos);
+std::string getControlFromBut(Window window);

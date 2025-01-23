@@ -22,7 +22,11 @@ public:
 
 	static PlayerController* getPlayerController();
 	static PlayerController* getSecondPlayerController();
+<<<<<<< HEAD
+	void ControllPlayer(Player* player, Map &map, float time, float ones = 1);
+=======
 	void ControllPlayer(Player* player, Map &map, float time);
+>>>>>>> 446753267755d968b0b6593bd2df7d9a885d88c3
 	PressedButton getPressedButton() { return _pressedButton; }
 
 private:

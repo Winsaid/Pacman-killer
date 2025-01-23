@@ -21,7 +21,7 @@ int main() {
     GameState gameState = GameState::MainMenu;
     textures::setTextures();
 
-    sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame, cloclForBomb;
+    sf::Clock clockForMove, clockForPlrSprt, clockForChBotDir, clockForStartGame, clockForBomb, clockForAcseleration, clockForTiwceSpeed;
     sf::Clock clockForAddBot;
     std::vector<sf::Clock> clockForBots;
     std::vector<sf::Clock> clockForStartBots;
@@ -51,10 +51,6 @@ int main() {
     if (!font1.loadFromFile("../../../../fonts/graf.ttf")) {
         throw std::runtime_error("Failed to load font");
     }
-    sf::Text end;
-    end.setCharacterSize(30);
-    end.setFont(font);
-    end.setPosition(sf::Vector2f(900.f, 50.f));
 
     sf::Sprite health;
     health.setTexture(textures::playerTexture);
@@ -72,10 +68,25 @@ int main() {
 
     std::vector<sf::Sprite> secondHealths;
 
-    int actualPointCount;
+    sf::Sprite secondHealth;
+    secondHealth.setTexture(textures::playerTexture);
+    secondHealth.setTextureRect(sf::IntRect(144, 96, 16, 16));
+    secondHealth.setScale(2, 2);
+    secondHealth.setPosition(sf::Vector2f(700.f, 90.f));
+
+    std::vector<sf::Sprite> secondHealths;
+
+    int actualPointCount = 0;
     int pointCount = map.getPoints().size();
     bool doStartGame = false;
     int countBotSkinChanges = 0;
+
+    int actualBombCount = 0;
+    int bombCount = map.getBombs().size();
+
+    int actualAcseleratation = 0;
+    int acselerationCount = map.getAcseleration().size();
+    bool haveTwiceSpeed = false;
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Pacman");
     sf::Image icon;
@@ -124,6 +135,7 @@ int main() {
     Window prompt = createPromptWindow(backgroundSpriteForMenu, font);
     Window pauseWindow = createPauseWindow(backgroundSpriteForMenu, font);
     Window SelectLife = createOptionLifeWindow(backgroundSpriteForMenu, font);
+    Window SelectControl = createControlWindow(backgroundSpriteForMenu, font);
     Window openWindow = mainWindow;
     bool isFirst = true;
     bool haveTwoPlayer;
@@ -131,7 +143,10 @@ int main() {
     while (window.isOpen()) {
         float timeForMove = clockForMove.getElapsedTime().asMicroseconds();
         float timeForPlrSprt = clockForPlrSprt.getElapsedTime().asSeconds();
-   std::vector<float> timesForChBotDir;
+        float timeForBomb = clockForBomb.getElapsedTime().asSeconds();
+        float timeForAcseleration = clockForAcseleration.getElapsedTime().asSeconds();
+        float timeForTwiceSpeed = clockForTiwceSpeed.getElapsedTime().asSeconds();
+        std::vector<float> timesForChBotDir;
 
         if (timesForChBotDir.size() == 0)
             for (int i = 0; i < bots.size(); ++i)
@@ -141,7 +156,8 @@ int main() {
             timesForChBotDir[i] = clockForBots[i].getElapsedTime().asSeconds();
         }
 
-        sf::IntRect lastTextureRect = firstPlayer->getSprite().getTextureRect();
+        sf::IntRect lastTextureRectForFirstPlayer = firstPlayer->getSprite().getTextureRect();
+        sf::IntRect lastTextureRectForSecondPLayer = secondPlayer->getSprite().getTextureRect();
         std::vector<Direction> lastBotDirections;
 
         for (int i = 0; i < currentBots && i < bots.size(); ++i) {
@@ -167,12 +183,29 @@ int main() {
 
 
         switch (gameState) {
+        case GameState::Control:
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
+
+        case GameState::WASD:
+            SelectControl = saveCtrl(SelectControl, mousePos);
+            firstPlayer->setControl(getControlFromBut(SelectControl));
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
+
+        case GameState::WASDch:
+            window.draw(SelectControl);
+            openWindow = SelectControl;
+            break;
+
         case GameState::Back:
             window.draw(mainWindow);
             openWindow = mainWindow;
             break;
 
-    case GameState::ReduceLife:
+        case GameState::ReduceLife:
             window.draw(SelectLife);
             SelectLife.reduceCountLifes();
             openWindow = SelectLife;
@@ -204,6 +237,10 @@ int main() {
         case GameState::Authors:
             window.draw(authorWindow);
             openWindow = authorWindow;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                gameState = GameState::MainMenu;
+                openWindow = mainWindow;
+            }
             break;
 
         case GameState::Exit:
@@ -313,8 +350,8 @@ int main() {
             openWindow = prompt;
             break;
         case GameState::StartGame:
-            botsCount = TextToInt(openWindow.getButtons()[6].getContent());            
-
+            botsCount = TextToInt(openWindow.getButtons()[6].getContent());
+            firstPlayer->setControl(getControlFromBut(SelectControl));
             if (!haveTwoPlayer) {
                 if (isFirst == true) {
                     if (TextToInt(openWindow.getButtons()[2].getContent()) == 0) {
@@ -331,7 +368,7 @@ int main() {
                         Map map2(levelTwoBin, levelTwo, sf::Vector2f(LEVEL_TWO_BOT_START_X, LEVEL_TWO_BOT_START_Y), sf::Vector2f(LEVEL_TWO_PLAEYR_START_X, LEVEL_TWO_PLAEYR_START_Y));
                         map = map2;
                         isFirst = false;
-                    }
+                    }      
 
                     if (bots.size() == 0)
                         bots = createBots(botsCount, map.getBotPosition());
@@ -347,9 +384,16 @@ int main() {
                     }
 
                     pointCount = map.getPoints().size();
+                    actualAcseleratation = 0;
+                    actualBombCount = 0;
+
                     scale = getScale(map.getPoints().size());
                     firstPlayer->setPosition(map.getPlayerPosition());
+                    clockForBomb.restart();
                 }
+
+                bombCount = map.getBombs().size();
+                acselerationCount = map.getAcseleration().size();
 
                 if (clockForBots.size() == 0)
                     for (int i = 0; i < bots.size(); ++i) {
@@ -365,14 +409,17 @@ int main() {
                     }
 
                     if (!scale.isAllPointCollected() && firstPlayer->getHP() > 0) {
-                        firstPlayer->Update(map, timeForMove, timeForPlrSprt);
+                        if (haveTwiceSpeed)
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt, 1.5);
+                        else 
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt);
 
                         for (int i = 0; i < currentBots; ++i)
                             if (clockForStartBots[i].getElapsedTime().asSeconds() > 3)
                                 bots[i].Update(map, timeForMove, timesForChBotDir[i]);
                     }
 
-                    if (lastTextureRect != firstPlayer->getSprite().getTextureRect())
+                    if (lastTextureRectForFirstPlayer != firstPlayer->getSprite().getTextureRect())
                         clockForPlrSprt.restart();
 
                     for (int i = 0; i < currentBots; ++i)
@@ -453,6 +500,55 @@ int main() {
                     gameState = GameState::Lose;
                     window.clear();
                 }
+
+                if (timeForBomb > 20 && bombCount < 3) {
+                    map.setBomb(textures::playerTexture);
+                    bombCount = map.getBombs().size();
+                    ++actualBombCount;
+                    window.draw(map);
+                    clockForBomb.restart();
+                }
+
+                if (bombCount >= 3) {
+                    clockForBomb.restart();
+                }
+
+                if (actualBombCount != bombCount) {
+                    currentBots = 1;
+                    for (int i = 0; i < bots.size(); ++i) {
+                        bots[i].setPosition(map.getBotPosition());
+                        clockForStartBots[i].restart();
+                    }
+                    bombCount = map.getBombs().size();
+                    actualBombCount = bombCount;
+                    clockForAddBot.restart();
+                    window.draw(map);
+                }
+
+                if (timeForTwiceSpeed > 3) {
+                    haveTwiceSpeed = false;
+                }
+
+                if (timeForAcseleration > 5 && acselerationCount < 3) {
+                    map.setAcseleration(textures::playerTexture);
+                    acselerationCount = map.getAcseleration().size();
+                    ++actualAcseleratation;
+                    window.draw(map);
+                    clockForAcseleration.restart();
+                }
+
+                if (acselerationCount >= 3) {
+                    clockForAcseleration.restart();
+                }
+
+                if (actualAcseleratation != acselerationCount) {
+                    acselerationCount = map.getAcseleration().size();
+                    actualAcseleratation = acselerationCount;
+                    window.draw(map);
+                    haveTwiceSpeed = true;
+                    clockForTiwceSpeed.restart();
+                }
+
             }
             else {
                 if (isFirst == true) {
@@ -491,11 +587,16 @@ int main() {
                         secondHealth.setPosition(sf::Vector2f(secondHealth.getPosition().x + 48, secondHealth.getPosition().y));
                     }
 
+                    actualBombCount = 0;
+                    actualAcseleratation = 0;
                     pointCount = map.getPoints().size();
                     scale = getScale(map.getPoints().size());
                     firstPlayer->setPosition(map.getPlayerPosition());
                     secondPlayer->setPosition(map.getSecondPlayerPosition());
                 }
+
+                bombCount = map.getBombs().size();
+                acselerationCount = map.getAcseleration().size();
 
                 if (clockForBots.size() == 0)
                     for (int i = 0; i < bots.size(); ++i) {
@@ -511,16 +612,54 @@ int main() {
                         }
                     }
 
-                    if (!scale.isAllPointCollected() && firstPlayer->getHP() > 0) {
-                        firstPlayer->Update(map, timeForMove, timeForPlrSprt);
-                        secondPlayer->Update(map, timeForMove, timeForPlrSprt);
+                    if (!scale.isAllPointCollected() && firstPlayer->getHP() != 0 && secondPlayer->getHP() != 0) {
+                        if (haveTwiceSpeed) {
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt, 1.5);
+                            secondPlayer->Update(map, timeForMove, timeForPlrSprt, 1.5);
+                        }
+                        else {
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt);
+                            secondPlayer->Update(map, timeForMove, timeForPlrSprt);
+                        }
+
+                        for (int i = 0; i < currentBots; ++i)
+                            if (clockForStartBots[i].getElapsedTime().asSeconds() > 3)
+                                bots[i].Update(map, timeForMove, timesForChBotDir[i]);
+                    }
+                    else if (!scale.isAllPointCollected() && secondPlayer->getHP() > 0 && firstPlayer->getHP() == 0) {
+                        if (haveTwiceSpeed) {
+                            secondPlayer->Update(map, timeForMove, timeForPlrSprt, 1.5);
+                        }
+                        else {
+                            secondPlayer->Update(map, timeForMove, timeForPlrSprt);
+                        }
 
                         for (int i = 0; i < currentBots; ++i)
                             if (clockForStartBots[i].getElapsedTime().asSeconds() > 3)
                                 bots[i].Update(map, timeForMove, timesForChBotDir[i]);
                     }
 
-                    if (lastTextureRect != firstPlayer->getSprite().getTextureRect())
+                    else if (!scale.isAllPointCollected() && firstPlayer->getHP() > 0 && secondPlayer->getHP() == 0) {
+                        if (haveTwiceSpeed) {
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt, 1.5);
+                        }
+                        else {
+                            firstPlayer->Update(map, timeForMove, timeForPlrSprt);
+                        }
+
+                        for (int i = 0; i < currentBots; ++i)
+                            if (clockForStartBots[i].getElapsedTime().asSeconds() > 3)
+                                bots[i].Update(map, timeForMove, timesForChBotDir[i]);
+                    }
+
+                    if (lastTextureRectForFirstPlayer != firstPlayer->getSprite().getTextureRect() && secondPlayer->getHP() != 0 && firstPlayer->getHP() != 0) {
+                        clockForPlrSprt.restart();
+                    }
+
+                    else if (lastTextureRectForFirstPlayer != firstPlayer->getSprite().getTextureRect() && secondPlayer->getHP() == 0)
+                        clockForPlrSprt.restart();
+
+                    else if (lastTextureRectForSecondPLayer != secondPlayer->getSprite().getTextureRect() && firstPlayer->getHP() == 0)
                         clockForPlrSprt.restart();
 
                     for (int i = 0; i < currentBots; ++i)
@@ -594,6 +733,54 @@ int main() {
                             clockForAddBot.restart();
                         }
                     }
+                }
+
+                if (timeForBomb > 20 && bombCount < 3) {
+                    map.setBomb(textures::playerTexture);
+                    bombCount = map.getBombs().size();
+                    ++actualBombCount;
+                    window.draw(map);
+                    clockForBomb.restart();
+                }
+
+                if (bombCount >= 3) {
+                    clockForBomb.restart();
+                }
+
+                if (actualBombCount != bombCount) {
+                    currentBots = 1;
+                    for (int i = 0; i < bots.size(); ++i) {
+                        bots[i].setPosition(map.getBotPosition());
+                        clockForStartBots[i].restart();
+                    }
+                    bombCount = map.getBombs().size();
+                    actualBombCount = bombCount;
+                    clockForAddBot.restart();
+                    window.draw(map);
+                }
+
+                if (timeForTwiceSpeed > 3) {
+                    haveTwiceSpeed = false;
+                }
+
+                if (timeForAcseleration > 5 && acselerationCount < 3) {
+                    map.setAcseleration(textures::playerTexture);
+                    acselerationCount = map.getAcseleration().size();
+                    ++actualAcseleratation;
+                    window.draw(map);
+                    clockForAcseleration.restart();
+                }
+
+                if (acselerationCount >= 3) {
+                    clockForAcseleration.restart();
+                }
+
+                if (actualAcseleratation != acselerationCount) {
+                    acselerationCount = map.getAcseleration().size();
+                    actualAcseleratation = acselerationCount;
+                    window.draw(map);
+                    haveTwiceSpeed = true;
+                    clockForTiwceSpeed.restart();
                 }
 
                 for (int i = 0; i < currentBots; ++i)
